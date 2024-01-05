@@ -2,7 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>JLand Join in</title>
+  <title>JLand Join in</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <h1>Create your JLand account</h1>
@@ -19,10 +20,11 @@
     <br>
     <label for="userId">ID</label>
     <input type="text" name="id" id="userId" placeholder="Write your id"/>
+    <button type="button" id="checkIdBtn"><i>Check ID</i></button>
     <br>
     <label for="userPassword">Password</label>
     <input type="password" name="pw" id="userPassword" placeholder="Write your password"/>
-    <button><i>img</i></button>
+    <button type="button"><i>img</i></button>
     <br>
     <label for="userCountry">Country</label>
     <input type="text" name="country" id="userCountry" placeholder="South Korea"/>
@@ -54,6 +56,30 @@
       return false;
     }
   }
+
+  // Check ID 버튼 클릭 시 ajax로 가입 가능한 ID 기능 추가
+  $(document).ready(function() {
+    $('#checkIdBtn').click(function() {
+      let userId = $('#userId').val();
+
+      $.ajax({
+        type: 'post',
+        url:'<c:url value="/account/checkId"/>',
+        // dataType: 'application/json',
+        data: 'id=' + userId,
+        success:function(data) {
+          if (data === 'CHK_OK') {
+            alert("사용 가능한 ID입니다.")
+          }
+        },
+        error:function(data) {
+          if (data.responseText === 'CHK_ERR') {
+            alert("사용할 수 없는 ID입니다.")
+          }
+        }
+      });
+    });
+  });
 </script>
 </body>
 </html>

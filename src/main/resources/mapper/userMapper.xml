@@ -4,7 +4,7 @@
 
 <mapper namespace="com.myproject.repository.UserMapper">
     <select id="count" resultType="int">
-        SELECT count(*) FROM users;
+        SELECT count(*) FROM users
     </select>
 
     <select id="select" parameterType="String" resultType="User">
@@ -13,7 +13,7 @@
 
     <insert id="insert" parameterType="User">
         INSERT INTO users (givenName, familyName, id, pw, email, country, day, month, year)
-        VALUES (#{givenName},#{familyName},#{id},#{pw},#{email},#{country},#{day},#{month},#{year});
+        VALUES (#{givenName},#{familyName},#{id},#{pw},#{email},#{country},#{day},#{month},#{year})
     </insert>
 
     <update id="update" parameterType="User">
@@ -22,7 +22,7 @@
     </update>
 
     <delete id="delete" parameterType="String">
-        DELETE FROM users WHERE id = #{id};
+        DELETE FROM users WHERE id = #{id}
     </delete>
 
     <delete id="deleteAll">

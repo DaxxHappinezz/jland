@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myproject.repository.ProductMapper">
+    <select id="count" resultType="int">
+        SELECT count(*) FROM products
+    </select>
+
+    <select id="select" parameterType="String" resultType="product">
+        SELECT * FROM products
+    </select>
+
+    <insert id="insert" parameterType="Product">
+        INSERT INTO products (pname, price, size, quantity, color, review_cnt)
+        VALUES (#{pname}, #{price}, #{size}, #{quantity}, #{color}, #{review_cnt})
+    </insert>
+
+    <update id="update" parameterType="Product">
+        UPDATE product SET pname = #{pname}, price = #{price}, size = #{size}, quantity = #{quantity}, color = #{color}, revuew_cnt = #{revuew_cnt}
+        WHERE pno = #{pno}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM products WHERE pno = #{pno}
+    </delete>
+
+    <delete id="deleteAll">
+        TRUNCATE TABLE products
+    </delete>
+</mapper>
