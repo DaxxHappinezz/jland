@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page session="false" %>
 <html>
 <head>
   <title>JLand Join in</title>
@@ -12,11 +13,16 @@
 <a href="<c:url value='/account/login'/>">Sign in</a>
 <form action="<c:url value='/account/add'/>" method="post" onsubmit="return formCheck(this)">
   <fieldset>
+    <div id="msg">
+      <c:if test="${not empty param.msg}">
+
+      </c:if>
+    </div>
     <label for="userGivenName">First name</label>
     <input type="text" name="givenName" id="userGivenName" placeholder="Write your first name"/>
     <br>
     <label for="userFamilyName">Last name</label>
-    <input type="text" name="familyName" id="userFamilyName" placeholder="Write your last name"/>
+    <input type="text" name="familyName" id="userFamilyName" placeholder="Write your last na  me"/>
     <br>
     <label for="userId">ID</label>
     <input type="text" name="id" id="userId" placeholder="Write your id"/>
@@ -43,17 +49,36 @@
 </form>
 <script>
   function formCheck(form) {
-    if (form.givenName.value.length === '' || form.givenName.value.length < 2) {
+    let msg = "";
+
+    if (form.givenName.value === '' || form.givenName.value.length < 2) {
+      console.log("givenName validation");
+      setMsg("!! Check your first name", form.givenName);
       return false;
     }
-    if (form.familyName.value.length === '' || form.familyName.value.length < 2) {
+    if (form.familyName.value === '' || form.familyName.value.length < 1) {
+      console.log("familyName validation");
+      setMsg("!! Check your last name", form.familyName);
       return false;
     }
-    if (form.pw.value.length === '' || form.pw.value.length < 4) {
+    if (form.id.value === '' || form.id.value.length < 4) {
+      console.log("id validation");
+      setMsg("!! Check your ID", form.id);
       return false;
     }
-    if (form.pw.value.length === '' || form.pw.value.length < 4) {
+    if (form.pw.value === '' || form.pw.value.length < 4) {
+      console.log("pw validation");
+      setMsg("!! Check your password", form.pw);
       return false;
+    }
+    return true;
+  }
+
+  function setMsg(msg, element) {
+    document.getElementById("msg").innerHTML = `<small><p>${'${msg}'}</p></small>`;
+
+    if (element) {
+      element.select();
     }
   }
 
@@ -65,7 +90,6 @@
       $.ajax({
         type: 'post',
         url:'<c:url value="/account/checkId"/>',
-        // dataType: 'application/json',
         data: 'id=' + userId,
         success:function(data) {
           if (data === 'CHK_OK') {

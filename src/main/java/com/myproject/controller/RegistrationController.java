@@ -34,7 +34,7 @@ public class RegistrationController {
             if (rowCnt != 1) throw new Exception("Registration Failed.");
         } catch (Exception e) {
             e.printStackTrace();
-            rattr.addFlashAttribute("msg", "REG_ERR");
+            rattr.addAttribute(user);
             return "redirect:/account/add";
         }
         // 2. 홈 or 이전 페이지로 이동
