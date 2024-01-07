@@ -9,6 +9,7 @@ public class Product {
     private String color;
     private Integer review_cnt;
 
+    public Product() {}
     public Product(String pname, Integer price, String size, Integer quantity, String color) {
         this.pname = pname;
         this.price = price;

@@ -7,7 +7,15 @@
         SELECT count(*) FROM products
     </select>
 
-    <select id="select" parameterType="String" resultType="Product">
+    <select id="selectAll" resultType="Product">
+        SELECT * FROM products ORDER BY pno DESC
+    </select>
+
+    <select id="selectByNo" parameterType="int" resultType="Product">
+        SELECT * FROM products WHERE pno = #{pno}
+    </select>
+
+    <select id="selectByName" parameterType="String" resultType="Product">
         SELECT * FROM products WHERE pname = #{pname}
     </select>
 
@@ -21,7 +29,7 @@
         WHERE pno = #{pno}
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete" parameterType="int">
         DELETE FROM products WHERE pno = #{pno}
     </delete>
 
