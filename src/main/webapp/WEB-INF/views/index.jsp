@@ -5,6 +5,7 @@
 <c:set var="loginLink" value="${loginId == '' ? '/account/login' : '/account/logout'}"/>
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
 <!DOCTYPE html>
+<html>
 <head>
     <title>J Land</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>"/>
@@ -31,8 +32,6 @@
     <h1>J Land</h1>
     <p>Resize the browser window to see the effect.</p>
 </div>
-
-<h4>${loginId == '' ? '' : 'J Land에 돌아오신 걸 환영합니다.'} </h4>
 
 <div class="topnav">
     <a href="<c:url value='/'/>">JLand</a>

@@ -46,6 +46,13 @@ body {
     float:right;
 }
 
+/* Clear floats after the columns */
+.row::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 /* Footer */
 .footer {
     padding: 20px;

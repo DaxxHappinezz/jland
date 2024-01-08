@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -26,5 +27,20 @@ public class ProductController {
         System.out.println("productList = " + productList);
         m.addAttribute("productList", productList);
         return "product/mainList";
+    }
+
+    @GetMapping("/products/{pno}")
+    public String product(@PathVariable Integer pno, Model m) {
+        Product product = null;
+        try {
+            product = this.productDao.selectByNo(pno);
+            if (product == null) {
+                throw new Exception("Get product failed.");
+            }
+            m.addAttribute(product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "product/information";
     }
 }

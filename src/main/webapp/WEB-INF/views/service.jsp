@@ -23,8 +23,6 @@
   <p>Resize the browser window to see the effect.</p>
 </div>
 
-<h4>${loginId == '' ? '' : 'J Land에 돌아오신 걸 환영합니다.'} </h4>
-
 <div class="topnav">
   <a href="<c:url value='/'/>">JLand</a>
   <a href="<c:url value='/products'/>">SHOP</a>

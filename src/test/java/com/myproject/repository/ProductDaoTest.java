@@ -56,6 +56,7 @@ public class ProductDaoTest {
 
         for (int i = 1; i <= 10 ; i++) {
             Product product = new Product("test "+i, 10, "l", 5, "green");
+            product.setReview_cnt(0);
             this.productDao.insert(product);
         }
         rowCnt = this.productDao.count();

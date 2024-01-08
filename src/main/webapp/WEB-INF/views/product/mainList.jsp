@@ -39,13 +39,6 @@
       margin-top: 20px;
     }
 
-    /* Clear floats after the columns */
-    .row::after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-
     .grid-container {
       display: grid;
       grid-template-columns: auto auto auto;
@@ -128,11 +121,11 @@
       <div class="grid-container">
         <c:forEach var="product" items="${productList}">
           <div class="grid-item">
-            <a href="#none">
-              <img src="<c:url value='/resources/img/CEO.png'/>" alt="product_image">
+            <a href="<c:url value='/products/${product.pno}'/>">
+              <img src="<c:url value='/resources/img/test.png'/>" alt="product_image">
             </a>
             <p>${product.pno}</p>
-            <a href="#none">
+            <a href="<c:url value='/products/${product.pno}'/>">
               <p>${product.pname}</p>
             </a>
             <p>${product.price}</p>
