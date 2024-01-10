@@ -33,6 +33,9 @@ public class ProductDao {
     public int update(Product product) throws Exception {
         return session.update(namespace + "update", product);
     }
+    public int increaseReviewCount(Integer pno) throws Exception {
+        return session.update(namespace + "increaseReviewCount", pno);
+    }
     public int delete(Integer pno) throws Exception {
         return session.delete(namespace + "delete", pno);
     }

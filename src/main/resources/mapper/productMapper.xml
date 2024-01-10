@@ -21,12 +21,16 @@
 
     <insert id="insert" parameterType="Product">
         INSERT INTO products (pname, price, size, quantity, color, review_cnt)
-        VALUES (#{pname}, #{price}, #{size}, #{quantity}, #{color}, #{review_cnt})
+        VALUES (#{pname}, #{price}, #{size}, #{quantity}, #{color}, 0)
     </insert>
 
     <update id="update" parameterType="Product">
         UPDATE products SET pname = #{pname}, price = #{price}, size = #{size}, quantity = #{quantity}, color = #{color}, review_cnt = #{review_cnt}
         WHERE pno = #{pno}
+    </update>
+
+    <update id="increaseReviewCount" parameterType="int">
+        UPDATE products SET review_cnt = review_cnt + 1 WHERE pno = #{pno};
     </update>
 
     <delete id="delete" parameterType="int">

@@ -19,6 +19,34 @@ public class ProductDaoTest {
     ProductDao productDao;
 
     @Test
+    public void insertTestData() throws Exception {
+        this.productDao.deleteAll();
+        int rowCnt = this.productDao.count();
+        assertTrue(rowCnt == 0);
+
+        Product product = new Product("pants", 20000, "s", 3, "black");
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+        product = new Product("fleece", 29000, "l", 3, "navy");
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+        product = new Product("hoodie", 15000, "xl", 3, "mint");
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+        product = new Product("The Globe", 22999, 3);
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+        product = new Product("Disney Castle", 39999, 3);
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+    }
+
+    @Test
     public void getCount() throws Exception {
         this.productDao.deleteAll();
         int rowCnt = this.productDao.count();
@@ -88,6 +116,25 @@ public class ProductDaoTest {
 
         Product product2 = this.productDao.selectByNo(product.getPno());
         assertTrue(product2.getColor().equals("yellow"));
+    }
+
+    @Test
+    public void increaseReviewCountTest() throws Exception {
+        this.productDao.deleteAll();
+        int rowCnt = this.productDao.count();
+        assertTrue(rowCnt == 0);
+
+        Product product = new Product("hoodie", 29000, "l", 1, "black");
+        rowCnt = this.productDao.insert(product);
+        assertTrue(rowCnt == 1);
+
+        product = this.productDao.selectByName("hoodie");
+        rowCnt = this.productDao.increaseReviewCount(product.getPno());
+        assertTrue(rowCnt == 1);
+
+        Product product2 = this.productDao.selectByNo(product.getPno());
+        assertTrue(product2.getReview_cnt() == 1);
+
     }
 
     @Test

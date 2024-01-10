@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myproject.repository.ReviewMapper">
+    <select id="count" resultType="int">
+        SELECT count(*) FROM reviews
+    </select>
+
+    <select id="avg_rating" parameterType="int" resultType="double">
+        SELECT ROUND(avg(rating), 1) AS rating_avg FROM reviews WHERE pno = #{pno};
+    </select>
+
+    <select id="selectAll" parameterType="int" resultType="Review">
+        SELECT * FROM reviews WHERE pno = #{pno} ORDER BY pno DESC
+    </select>
+
+    <select id="select" parameterType="map" resultType="Review">
+        SELECT * FROM reviews WHERE uno = #{uno} AND pno = #{pno}
+    </select>
+
+    <insert id="insert" parameterType="Review">
+        INSERT INTO reviews (pno, uno, title, comment, rating, up, down, created, updated)
+        VALUES (#{pno}, #{uno}, #{title}, #{comment}, #{rating}, 0, 0, current_timestamp, current_timestamp);
+    </insert>
+
+    <update id="update" parameterType="Review">
+        UPDATE reviews SET comment = #{comment}, updated = current_timestamp
+        WHERE uno = #{uno}
+    </update>
+
+    <update id="up_calc">
+        UPDATE reviews SET up = up + #{up} WHERE pno = #{pno}
+    </update>
+
+    <update id="down_calc">
+        UPDATE reviews SET down = down + #{down} WHERE pno = #{pno}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE FROM reviews WHERE pno = #{pno} AND uno = #{uno}
+    </delete>
+
+    <delete id="deleteAll">
+        TRUNCATE TABLE reviews
+    </delete>
+</mapper>

@@ -46,9 +46,9 @@
 
     .grid-item {
       background-color: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.8);
+      border: 1px solid #dddddd;
       font-size: 16px;
-      text-align: center;
+      text-align: left;
       position: relative; /* 이미지 크기 조절을 위한 상대 위치 설정 */
     }
 
