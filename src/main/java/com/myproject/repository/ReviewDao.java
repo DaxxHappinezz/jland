@@ -27,18 +27,24 @@ public class ReviewDao {
     public Review select(Map map) throws Exception {
         return session.selectOne(namespace + "select", map);
     }
+    public Review selectByRno(Integer rno) throws Exception {
+        return session.selectOne(namespace + "selectByRno", rno);
+    }
     public int insert(Review review) throws Exception {
         return session.insert(namespace + "insert", review);
     }
     public int update(Review review) throws Exception {
         return session.update(namespace + "update", review);
     }
-    public int up_calc(Map map) throws Exception {
-        return session.update(namespace + "up_calc", map);
+    public int upDown_calc(Map map) throws Exception {
+        return session.update(namespace + "upDown_calc", map);
     }
-    public int down_calc(Map map) throws Exception {
-        return session.update(namespace + "down_calc", map);
-    }
+//    public int up_calc(Map map) throws Exception {
+//        return session.update(namespace + "up_calc", map);
+//    }
+//    public int down_calc(Map map) throws Exception {
+//        return session.update(namespace + "down_calc", map);
+//    }
     public int delete(Map map) throws Exception {
         return session.delete(namespace + "delete", map);
     }

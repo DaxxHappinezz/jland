@@ -5,7 +5,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProductDao {
@@ -33,8 +35,11 @@ public class ProductDao {
     public int update(Product product) throws Exception {
         return session.update(namespace + "update", product);
     }
-    public int increaseReviewCount(Integer pno) throws Exception {
-        return session.update(namespace + "increaseReviewCount", pno);
+    public int changeReviewCount(Integer pno, int countValue) throws Exception {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("pno", pno);
+        map.put("countValue", countValue);
+        return session.update(namespace + "changeReviewCount", map);
     }
     public int delete(Integer pno) throws Exception {
         return session.delete(namespace + "delete", pno);

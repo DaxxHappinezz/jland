@@ -1,11 +1,15 @@
 package com.myproject.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 public class Review {
     private Integer rno;
     private Integer pno;
     private Integer uno;
+    private String givenName;
+    private String familyName;
     private String title;
     private String comment;
     private Integer rating;
@@ -19,6 +23,16 @@ public class Review {
     public Review(Integer pno, Integer uno, String title, String comment, Integer rating) {
         this.pno = pno;
         this.uno = uno;
+        this.title = title;
+        this.comment = comment;
+        this.rating = rating;
+    }
+
+    public Review(Integer pno, Integer uno, String givenName, String familyName, String title, String comment, Integer rating) {
+        this.pno = pno;
+        this.uno = uno;
+        this.givenName = givenName;
+        this.familyName = familyName;
         this.title = title;
         this.comment = comment;
         this.rating = rating;
@@ -46,6 +60,22 @@ public class Review {
 
     public void setUno(Integer uno) {
         this.uno = uno;
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
     }
 
     public String getTitle() {
@@ -110,6 +140,8 @@ public class Review {
                 "rno=" + rno +
                 ", pno=" + pno +
                 ", uno=" + uno +
+                ", givenName='" + givenName + '\'' +
+                ", familyName='" + familyName + '\'' +
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +

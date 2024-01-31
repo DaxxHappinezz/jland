@@ -32,24 +32,8 @@ public class MyController {
         return "cart/cartList";
     }
 
-    @GetMapping("/carts")
-    @ResponseBody
-    public ResponseEntity<?> myCarts() {
-        List<Product> cartList = null;
-        try {
-            cartList = this.productDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest()
-                    .body("ANN_ERR");
-        }
-        return ResponseEntity.ok()
-                .header("Hello myCart")
-                .body(cartList);
-    }
-
     @GetMapping("/wishlist")
     public String myWishlist() {
-        return "user/wishlist";
+        return "cart/wishlist";
     }
 }

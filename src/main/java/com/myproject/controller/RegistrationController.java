@@ -41,7 +41,7 @@ public class RegistrationController {
         return "redirect:/";
     }
 
-    @PostMapping("/checkId")
+    @PostMapping("/check-id")
     @ResponseBody
     public ResponseEntity<String> checkId(@RequestParam("id") String id) {
 //    public ResponseEntity<String> checkId(@RequestBody String id) {

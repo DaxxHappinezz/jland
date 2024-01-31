@@ -29,8 +29,8 @@
         WHERE pno = #{pno}
     </update>
 
-    <update id="increaseReviewCount" parameterType="int">
-        UPDATE products SET review_cnt = review_cnt + 1 WHERE pno = #{pno};
+    <update id="changeReviewCount" parameterType="map">
+        UPDATE products SET review_cnt = review_cnt + #{countValue} WHERE pno = #{pno};
     </update>
 
     <delete id="delete" parameterType="int">

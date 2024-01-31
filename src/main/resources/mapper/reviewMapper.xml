@@ -12,11 +12,17 @@
     </select>
 
     <select id="selectAll" parameterType="int" resultType="Review">
-        SELECT * FROM reviews WHERE pno = #{pno} ORDER BY pno DESC
+        SELECT rno, r.pno, rating, u.givenName, u.familyName, title, comment, r.created, r.updated, up, down
+        FROM reviews r LEFT JOIN users u ON r.uno = u.uno
+        WHERE pno = #{pno} ORDER BY rno DESC
     </select>
 
     <select id="select" parameterType="map" resultType="Review">
         SELECT * FROM reviews WHERE uno = #{uno} AND pno = #{pno}
+    </select>
+
+    <select id="selectByRno" parameterType="int" resultType="Review">
+        SELECT * FROM reviews WHERE rno = #{rno}
     </select>
 
     <insert id="insert" parameterType="Review">
@@ -29,13 +35,25 @@
         WHERE uno = #{uno}
     </update>
 
-    <update id="up_calc">
-        UPDATE reviews SET up = up + #{up} WHERE pno = #{pno}
+    <update id="upDown_calc" parameterType="map">
+        <!-- 사용자가 전달한 'help' 값에 따라 동적으로 업데이트할 열 선택 -->
+        <choose>
+            <when test="help == 'up'">
+                UPDATE reviews SET up = up + 1 WHERE rno = #{rno}
+            </when>
+            <when test="help == 'down'">
+                UPDATE reviews SET down = down + 1 WHERE rno = #{rno}
+            </when>
+        </choose>
     </update>
 
-    <update id="down_calc">
-        UPDATE reviews SET down = down + #{down} WHERE pno = #{pno}
-    </update>
+<!--    <update id="up_calc" parameterType="map">-->
+<!--        UPDATE reviews SET up = up + #{up} WHERE rno = #{rno}-->
+<!--    </update>-->
+
+<!--    <update id="down_calc" parameterType="map">-->
+<!--        UPDATE reviews SET down = down + #{down} WHERE rno = #{rno}-->
+<!--    </update>-->
 
     <delete id="delete" parameterType="map">
         DELETE FROM reviews WHERE pno = #{pno} AND uno = #{uno}

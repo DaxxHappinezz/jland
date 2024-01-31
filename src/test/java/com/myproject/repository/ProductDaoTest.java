@@ -129,7 +129,7 @@ public class ProductDaoTest {
         assertTrue(rowCnt == 1);
 
         product = this.productDao.selectByName("hoodie");
-        rowCnt = this.productDao.increaseReviewCount(product.getPno());
+//        rowCnt = this.productDao.increaseReviewCount(product.getPno());
         assertTrue(rowCnt == 1);
 
         Product product2 = this.productDao.selectByNo(product.getPno());

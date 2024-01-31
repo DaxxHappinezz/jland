@@ -17,6 +17,19 @@ public class UserDaoTest {
     UserDao userDao;
 
     @Test
+    public void insertUserTestData() throws Exception {
+        int rowCnt = this.userDao.deleteAll();
+        assertTrue(rowCnt == 0);
+
+        for (int i = 1; i <= 10; i++) {
+            User user = new User("Jaecheol", "Seo", "master"+i, "1234");
+            rowCnt = this.userDao.insert(user);
+            assertTrue(rowCnt == 1);
+        }
+
+    }
+
+    @Test
     public void getCountUserTest() throws Exception {
         int rowCnt = this.userDao.count();
         System.out.println("rowCnt = " + rowCnt);

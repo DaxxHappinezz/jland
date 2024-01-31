@@ -36,28 +36,41 @@ public class ReviewService {
         map.put("uno", uno);
         return this.reviewDao.select(map);
     }
+    public Review getReviewByReviewNo(Integer rno) throws Exception {
+        return this.reviewDao.selectByRno(rno);
+    }
     @Transactional(rollbackFor = Exception.class)
     public int writeReview(Review review) throws Exception {
-        this.productDao.increaseReviewCount(review.getPno());
+        int countValue = 1;
+        productDao.changeReviewCount(review.getPno(), countValue);
         return this.reviewDao.insert(review);
     }
     public int modifyReview(Review review) throws Exception {
         return this.reviewDao.update(review);
     }
-    public int upCalculation(int pno, int up) throws Exception {
+    public int helpCalculation(int rno, String help) throws Exception {
         Map map = new HashMap();
-        map.put("pno", pno);
-        map.put("up", up);
-        return this.reviewDao.up_calc(map);
+        map.put("rno", rno);
+        map.put("help", help);
+        return this.reviewDao.upDown_calc(map);
     }
-    public int downCalculation(int pno, int down) throws Exception {
-        Map map = new HashMap();
-        map.put("pno", pno);
-        map.put("up", down);
-        return this.reviewDao.down_calc(map);
-    }
+//    public int upCalculation(int rno, int up) throws Exception {
+//        Map map = new HashMap();
+//        map.put("rno", rno);
+//        map.put("up", up);
+//        return this.reviewDao.up_calc(map);
+//    }
+//    public int downCalculation(int rno, int down) throws Exception {
+//        Map map = new HashMap();
+//        map.put("rno", rno);
+//        map.put("down", down);
+//        return this.reviewDao.down_calc(map);
+//    }
+    @Transactional(rollbackFor = Exception.class)
     public int remove(int pno, int uno) throws Exception {
-        Map map = new HashMap();
+        int countValue = -1;
+        productDao.changeReviewCount(pno, countValue);
+        Map<String, Integer> map = new HashMap<>();
         map.put("pno", pno);
         map.put("uno", uno);
         return this.reviewDao.delete(map);

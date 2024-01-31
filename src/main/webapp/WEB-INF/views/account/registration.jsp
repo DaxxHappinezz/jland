@@ -14,9 +14,7 @@
 <form action="<c:url value='/account/add'/>" method="post" onsubmit="return formCheck(this)">
   <fieldset>
     <div id="msg">
-      <c:if test="${not empty param.msg}">
-
-      </c:if>
+      <c:if test="${not empty param.msg}"></c:if>
     </div>
     <label for="userGivenName">First name</label>
     <input type="text" name="givenName" id="userGivenName" placeholder="Write your first name"/>
@@ -89,7 +87,7 @@
 
       $.ajax({
         type: 'post',
-        url:'<c:url value="/account/checkId"/>',
+        url:'<c:url value="/account/check-id"/>',
         data: 'id=' + userId,
         success:function(data) {
           if (data === 'CHK_OK') {
