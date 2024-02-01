@@ -25,7 +25,13 @@ public class ReviewService {
         return this.reviewDao.count();
     }
     public double getAvgRating(Integer pno) throws Exception {
-        return this.reviewDao.avg_rating(pno);
+        Double avgRating = this.reviewDao.avg_rating(pno);
+        System.out.println("avgRating = " + avgRating);
+        if (avgRating == null) {
+            System.out.println("service if() executed.");
+            avgRating = 0.0;
+        }
+        return avgRating;
     }
     public List<Review> getReviewList(Integer pno) throws Exception {
         return this.reviewDao.selectAll(pno);
@@ -54,18 +60,6 @@ public class ReviewService {
         map.put("help", help);
         return this.reviewDao.upDown_calc(map);
     }
-//    public int upCalculation(int rno, int up) throws Exception {
-//        Map map = new HashMap();
-//        map.put("rno", rno);
-//        map.put("up", up);
-//        return this.reviewDao.up_calc(map);
-//    }
-//    public int downCalculation(int rno, int down) throws Exception {
-//        Map map = new HashMap();
-//        map.put("rno", rno);
-//        map.put("down", down);
-//        return this.reviewDao.down_calc(map);
-//    }
     @Transactional(rollbackFor = Exception.class)
     public int remove(int pno, int uno) throws Exception {
         int countValue = -1;

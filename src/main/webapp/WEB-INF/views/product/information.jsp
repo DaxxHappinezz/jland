@@ -221,7 +221,7 @@
         </div>
         <div id="specToggled" class="toggled">This is the element to toggle</div>
 
-        <div class="productInfoArea" onclick="getToggle('customer')">
+        <div id="customerInfo" class="productInfoArea" onclick="getToggle('customer')">
             <h2>
                 <span class="toggleTitle">Customer reviews</span>
                 <span class="starContainer"></span>
@@ -251,39 +251,40 @@
             </form>
             <span><button id="writeReviewBtn">Write a Review</button></span>
             <hr>
-            <c:forEach var="review" items="${reviewList}">
-                <div>
-                    <p>${review.created}</p>
-                    <c:choose>
-                        <c:when test="${review.rating eq 5}">
-                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                        </c:when>
-                        <c:when test="${review.rating eq 4}">
-                            <span>&#9733;&#9733;&#9733;&#9733;</span>
-                        </c:when>
-                        <c:when test="${review.rating eq 3}">
-                            <span>&#9733;&#9733;&#9733;</span>
-                        </c:when>
-                        <c:when test="${review.rating eq 2}">
-                            <span>&#9733;&#9733;</span>
-                        </c:when>
-                        <c:otherwise>
-                            <span>&#9733;</span>
-                        </c:otherwise>
-                    </c:choose>
-                    <p>${review.title}</p>
-                    <p>${review.givenName} ${review.familyName}</p>
-                    <p>${review.comment}</p>
-                    <div class="calculation">
-                        <button type="button" class="upCalcBtn" data-rno="${review.rno}">Up</button>
-                        <span class="upCalcValue">${review.up}</span>
-                        <button type="button" class="downCalcBtn" data-rno="${review.rno}">Down</button>
-                        <span class="downCalcValue">${review.down}</span>
-                    </div>
-                </div>
-                <br>
-                <hr>
-            </c:forEach>
+            <div id="reviewArea">
+<%--            <c:forEach var="review" items="${reviewList}">--%>
+<%--                <div id="reviewArea">--%>
+<%--                    <p>${review.created}</p>--%>
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${review.rating eq 5}">--%>
+<%--                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>--%>
+<%--                        </c:when>--%>
+<%--                        <c:when test="${review.rating eq 4}">--%>
+<%--                            <span>&#9733;&#9733;&#9733;&#9733;</span>--%>
+<%--                        </c:when>--%>
+<%--                        <c:when test="${review.rating eq 3}">--%>
+<%--                            <span>&#9733;&#9733;&#9733;</span>--%>
+<%--                        </c:when>--%>
+<%--                        <c:when test="${review.rating eq 2}">--%>
+<%--                            <span>&#9733;&#9733;</span>--%>
+<%--                        </c:when>--%>
+<%--                        <c:otherwise>--%>
+<%--                            <span>&#9733;</span>--%>
+<%--                        </c:otherwise>--%>
+<%--                    </c:choose>--%>
+<%--                    <p>${review.title}</p>--%>
+<%--                    <p>${review.givenName} ${review.familyName}</p>--%>
+<%--                    <p>${review.comment}</p>--%>
+<%--                    <div class="calculation">--%>
+<%--                        <button type="button" class="upCalcBtn" data-rno="${review.rno}">Up</button>--%>
+<%--                        <span class="upCalcValue">${review.up}</span>--%>
+<%--                        <button type="button" class="downCalcBtn" data-rno="${review.rno}">Down</button>--%>
+<%--                        <span class="downCalcValue">${review.down}</span>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                <br>--%>
+<%--                <hr>--%>
+<%--            </c:forEach>--%>
         </div>
     </div>
 </div>
@@ -396,7 +397,7 @@
     });
 
     // For Overall Rating
-    let avgRating = ${avgRating};
+    let avgRating = ${empty avgRating ? 0.0 : avgRating};
     drawStars(avgRating);
 
     function drawStars(starCount) {
@@ -410,15 +411,70 @@
         }
     }
 
-    // For Toggle
-    let getToggle = function toggles(status) {
-        console.log("status:",status)
+    let toHTML = function (reviews) {
+        let tmp = "<ul>";
+        reviews.forEach(function(review) {
+            tmp += "<li data-rno=" + review.rno
+            tmp += " data-pno=" + review.pno
+            tmp += " data-uno=" + review.uno + ">"
+            tmp += " rating=<span class='rating'>" + review.rating + "</span>"
+            tmp += " created=<span class='created'>" + review.created +"</span>"
+            tmp += " updated=<span class='updated'>" + review.updated +"</span>"
+            tmp += " title=<span class='title'>" + review.title + "</span>"
+            tmp += " givenName=<span class='givenName'>" + review.givenName + "</span>"
+            tmp += " familyName=<span class='familName'>" + review.familyName + "</span>"
+            tmp += " comment=<span class='comment'>" + review.comment + "</span>"
+            tmp += "<button id='upBtn'>up</button"
+            tmp += " up=<span class='up'>" + review.up + "</span>"
+            tmp += "<button id='downBtn'>down</button"
+            tmp += " down=<span class='down'>" + review.down + "</span>"
+            tmp += "</li>"
+        })
+        return tmp + "</ul>";
+    }
 
+    let showReviewList = function(pno) {
+        fetch(`/jland/reviews?pno=${pno}`, {
+            method: 'GET'
+        })
+            .then(response => {
+                console.log("response: ", response);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                console.log("success-data: ", data);
+
+                document.getElementById("reviewArea").innerHTML = toHTML(data);
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }
+
+    // For Toggle
+    let getToggle = function (status, event) {
+        console.log("status:",status)
+        console.log("event:", event)
+
+        let pno = ${product.pno};
+        if (status === "customer") {
+            showReviewList(pno);
+        }
         const elementToggled = document.getElementById(status+"Toggled");
         const toggleIcon = document.getElementById(status+"ToggleIcon");
 
         if (elementToggled.style.display === "none" || elementToggled.style.display === "") {
             toggleIcon.innerHTML = "&minus;";
+
+            // 여기서 customerToggleIcon에 대한 처리를 추가
+            const customerToggleIcon = document.getElementById("customerToggleIcon");
+            customerToggleIcon.innerHTML = "Loading..."; // 혹은 로딩 스피너 등을 표시할 수 있음
+
             showToggleContent(elementToggled);
         } else {
             toggleIcon.innerHTML = "&plus;";
@@ -433,6 +489,10 @@
     function hideToggleContent(toggleElement) {
         toggleElement.style.display = "none";
     }
+
+    document.getElementById("customerInfo").addEventListener("click", function(event) {
+        getToggle("test", event);
+    });
 
     // For Modal
     let modal;
@@ -574,14 +634,12 @@
                 console.log("after reload() executed.");
                 getToggle('customer');
 
-                return response; // JSON 형태로 변환된 응답 데이터를 반환합니다.
+                return response;
             })
             .then(data => {
-                // JSON 데이터를 사용하는 코드
                 console.log(data);
             })
             .catch(error => {
-                // 에러 발생 시 처리
                 console.error('There has been a problem with your fetch operation:', error);
                 return false;
             });
@@ -589,12 +647,15 @@
     })
 
     document.getElementById('customerToggled').addEventListener("click", function(event) {
-        // console.log("event:", event);
+        console.log("event:", event);
 
         // 클릭된 버튼 부모의 요소 찾기
-        let parentEle = event.target.closest('.calculation');
+        let parentNode = event.target.parentNode;
+        let getRno = parentNode.dataset.pno;
+        console.log("getRno :", getRno);
 
-        let rno = event.target.getAttribute("data-rno");
+        let eventId = event.target.id;
+        console.log("eventId: ", eventId)
 
         // 클릭된 요소가 upCalcBtn 클래스를 가지고 있는지 확인
         if (event.target.classList.contains("upCalcBtn")) {

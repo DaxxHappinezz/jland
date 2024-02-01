@@ -60,3 +60,7 @@ body {
     background: #ddd;
     margin-top: 20px;
 }
+
+li {
+    list-style: none;
+}

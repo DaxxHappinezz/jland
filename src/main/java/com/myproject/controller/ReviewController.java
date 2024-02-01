@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -18,8 +20,28 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @PostMapping("/reviews")
+    @GetMapping // ?pno=222
     @ResponseBody
+//    http://localhost:8081/jland/reviews?pno=4
+    public ResponseEntity<Object> getReviewList(Integer pno) {
+        System.out.println("pno = " + pno);
+        List<Review> reviewList = null;
+        try {
+            reviewList = reviewService.getReviewList(pno);
+            for (Review r : reviewList) {
+                System.out.println("review: "+r);
+            }
+            System.out.println("Obj cnt: "+reviewList.size());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(reviewList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Try again.");
+        }
+    }
+
+    @PostMapping
     public ResponseEntity<String> submit(@RequestBody Review review) {
         System.out.println("review = " + review);
         review.setUno(1);
@@ -39,10 +61,9 @@ public class ReviewController {
         }
     }
 
-    @PatchMapping("/reviews/up/{rno}")
+    @PatchMapping("/up/{rno}")
     public ResponseEntity<Object> upCount(@PathVariable Integer rno) {
         System.out.println("rno = " + rno);
-//        int up = 1;
         try {
             int rowCnt = this.reviewService.helpCalculation(rno, "up");
             System.out.println("rowCnt = " + rowCnt);
@@ -63,11 +84,10 @@ public class ReviewController {
         }
     }
 
-    @PatchMapping("/reviews/down/{rno}")
+    @PatchMapping("/down/{rno}")
     public ResponseEntity<Object> downCount(@PathVariable Integer rno) {
         System.out.println("downCount()");
         System.out.println("rno = " + rno);
-//        int down = -1;
         try {
             int rowCnt = this.reviewService.helpCalculation(rno, "down");
             System.out.println("rowCnt = " + rowCnt);

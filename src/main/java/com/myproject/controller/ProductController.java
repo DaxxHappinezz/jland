@@ -46,17 +46,15 @@ public class ProductController {
             System.out.println("product = " + product);
             m.addAttribute(product);
 
-            // 2. 리뷰 정보 가져오기
-            List<Review> reviewList = this.reviewService.getReviewList(pno);
-            System.out.println("reviewList = " + reviewList);
-            for (Review re : reviewList) {
-                System.out.println("re = " + re);
-            }
-            m.addAttribute("reviewList", reviewList);
-
-            // 3. 리뷰 평균 가져오기
+            // 2. 리뷰 평균 가져오기
             double avgRating = this.reviewService.getAvgRating(pno);
             m.addAttribute("avgRating", avgRating);
+
+            // 3. 리뷰 정보 가져오기
+//            List<Review> reviewList = this.reviewService.getReviewList(pno);
+//            System.out.println("reviewList = " + reviewList);
+//            m.addAttribute("reviewList", reviewList);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

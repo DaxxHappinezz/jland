@@ -1,8 +1,10 @@
 package com.myproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Review {
     private Integer rno;
@@ -15,8 +17,12 @@ public class Review {
     private Integer rating;
     private Integer up;
     private Integer down;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
+//    private Date created;
+//    private Date updated;
 
     public Review() {}
 
@@ -36,6 +42,21 @@ public class Review {
         this.title = title;
         this.comment = comment;
         this.rating = rating;
+    }
+
+    public Review(Integer rno, Integer pno, Integer uno, String givenName, String familyName, String title, String comment, Integer rating, Integer up, Integer down, LocalDateTime created, LocalDateTime updated) {
+        this.rno = rno;
+        this.pno = pno;
+        this.uno = uno;
+        this.givenName = givenName;
+        this.familyName = familyName;
+        this.title = title;
+        this.comment = comment;
+        this.rating = rating;
+        this.up = up;
+        this.down = down;
+        this.created = created;
+        this.updated = updated;
     }
 
     public Integer getRno() {
@@ -117,6 +138,22 @@ public class Review {
     public void setDown(Integer down) {
         this.down = down;
     }
+
+//    public Date getCreated() {
+//        return created;
+//    }
+//
+//    public void setCreated(Date created) {
+//        this.created = created;
+//    }
+//
+//    public Date getUpdated() {
+//        return updated;
+//    }
+//
+//    public void setUpdated(Date updated) {
+//        this.updated = updated;
+//    }
 
     public LocalDateTime getCreated() {
         return created;
