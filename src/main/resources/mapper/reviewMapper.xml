@@ -18,6 +18,12 @@
         WHERE pno = #{pno} ORDER BY rno DESC
     </select>
 
+    <select id="selectPage" parameterType="map" resultType="Review">
+        SELECT rno, r.pno, r.uno, rating, u.givenName, u.familyName, title, comment, r.created, r.updated, up, down
+        FROM reviews r LEFT JOIN users u ON r.uno = u.uno
+        WHERE pno = #{pno} ORDER BY rno DESC LIMIT #{pageSize} OFFSET #{offset};
+    </select>
+
     <select id="select" parameterType="map" resultType="Review">
         SELECT * FROM reviews WHERE uno = #{uno} AND pno = #{pno}
     </select>

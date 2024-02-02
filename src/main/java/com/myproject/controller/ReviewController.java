@@ -1,5 +1,6 @@
 package com.myproject.controller;
 
+import com.myproject.domain.PageHandler;
 import com.myproject.domain.Review;
 import com.myproject.service.ReviewService;
 import org.springframework.http.HttpStatus;
@@ -22,18 +23,31 @@ public class ReviewController {
 
     @GetMapping // ?pno=222
     @ResponseBody
-//    http://localhost:8081/jland/reviews?pno=4
     public ResponseEntity<Object> getReviewList(Integer pno) {
-        System.out.println("pno = " + pno);
         List<Review> reviewList = null;
         try {
             reviewList = reviewService.getReviewList(pno);
-            for (Review r : reviewList) {
-                System.out.println("review: "+r);
-            }
-            System.out.println("Obj cnt: "+reviewList.size());
             return ResponseEntity.status(HttpStatus.OK)
                     .body(reviewList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Try again.");
+        }
+    }
+    @GetMapping("/page") // /reviews/page?pno=222
+    @ResponseBody
+    public ResponseEntity<Object> getPageReviewList(Integer pno, Integer currentPage, Integer pageSize) {
+        if (currentPage == null) currentPage = 1;
+        if (pageSize == null) pageSize = 5;
+        List<Review> pageReviewList = null;
+        try {
+            pageReviewList = reviewService.getPageReviewList(pno, (currentPage -1) * 5, pageSize);
+            int reviewCnt = reviewService.getCount();
+            PageHandler ph = new PageHandler(reviewCnt, currentPage, pageSize, pageReviewList);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(ph);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -66,12 +80,10 @@ public class ReviewController {
         System.out.println("rno = " + rno);
         try {
             int rowCnt = this.reviewService.helpCalculation(rno, "up");
-            System.out.println("rowCnt = " + rowCnt);
             if (rowCnt != 1) {
                 throw new Exception("Review Update Up Failed.");
             }
             Integer up_cnt = this.reviewService.getReviewByReviewNo(rno).getUp();
-            System.out.println("up_cnt = " + up_cnt);
             Map<String, Object> responseObject = new HashMap<>();
             responseObject.put("up_cnt", up_cnt);
 
@@ -86,17 +98,13 @@ public class ReviewController {
 
     @PatchMapping("/down/{rno}")
     public ResponseEntity<Object> downCount(@PathVariable Integer rno) {
-        System.out.println("downCount()");
-        System.out.println("rno = " + rno);
         try {
             int rowCnt = this.reviewService.helpCalculation(rno, "down");
-            System.out.println("rowCnt = " + rowCnt);
 
             if (rowCnt != 1) {
                 throw new Exception("Review Update Down Failed.");
             }
             Integer down_cnt = this.reviewService.getReviewByReviewNo(rno).getDown();
-            System.out.println("down_cnt = " + down_cnt);
             Map<String, Object> responseObject = new HashMap<>();
             responseObject.put("down_cnt", down_cnt);
 

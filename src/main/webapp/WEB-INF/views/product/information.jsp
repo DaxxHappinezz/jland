@@ -167,6 +167,10 @@
     .calculation {
         float: left;
     }
+    .updown {
+        width: 20px;
+        height: 20px;
+    }
 </style>
 <head>
     <title>J Land</title>
@@ -220,8 +224,7 @@
             <span id="specToggleIcon" class="toggleIcon">&plus;</span>
         </div>
         <div id="specToggled" class="toggled">This is the element to toggle</div>
-
-        <div id="customerInfo" class="productInfoArea" onclick="getToggle('customer')">
+        <div id="customerInfo" class="productInfoArea">
             <h2>
                 <span class="toggleTitle">Customer reviews</span>
                 <span class="starContainer"></span>
@@ -230,6 +233,7 @@
             <span id="customerToggleIcon" class="toggleIcon">&plus;</span>
         </div>
         <div id="customerToggled" class="toggled">
+            <br>
             <span>Overall Rating</span>
             <div>
                 <span class="starContainer"></span>
@@ -251,40 +255,7 @@
             </form>
             <span><button id="writeReviewBtn">Write a Review</button></span>
             <hr>
-            <div id="reviewArea">
-<%--            <c:forEach var="review" items="${reviewList}">--%>
-<%--                <div id="reviewArea">--%>
-<%--                    <p>${review.created}</p>--%>
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${review.rating eq 5}">--%>
-<%--                            <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span>--%>
-<%--                        </c:when>--%>
-<%--                        <c:when test="${review.rating eq 4}">--%>
-<%--                            <span>&#9733;&#9733;&#9733;&#9733;</span>--%>
-<%--                        </c:when>--%>
-<%--                        <c:when test="${review.rating eq 3}">--%>
-<%--                            <span>&#9733;&#9733;&#9733;</span>--%>
-<%--                        </c:when>--%>
-<%--                        <c:when test="${review.rating eq 2}">--%>
-<%--                            <span>&#9733;&#9733;</span>--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-<%--                            <span>&#9733;</span>--%>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
-<%--                    <p>${review.title}</p>--%>
-<%--                    <p>${review.givenName} ${review.familyName}</p>--%>
-<%--                    <p>${review.comment}</p>--%>
-<%--                    <div class="calculation">--%>
-<%--                        <button type="button" class="upCalcBtn" data-rno="${review.rno}">Up</button>--%>
-<%--                        <span class="upCalcValue">${review.up}</span>--%>
-<%--                        <button type="button" class="downCalcBtn" data-rno="${review.rno}">Down</button>--%>
-<%--                        <span class="downCalcValue">${review.down}</span>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <br>--%>
-<%--                <hr>--%>
-<%--            </c:forEach>--%>
+            <div id="reviewArea"></div>
         </div>
     </div>
 </div>
@@ -371,8 +342,127 @@
 </div>
 
 <script>
-    // for review 정규표현식 적용
-    document.addEventListener('DOMContentLoaded', reviewFormValidation);
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // 리뷰 전송 시 검증 함수 호출
+        reviewFormValidation();
+
+        // customer rivew 영역 클릭 시 리뷰 목록 호출
+        document.getElementById("customerInfo").addEventListener("click", function(event) {
+            getToggle("customer", event);
+        });
+
+        // 리뷰 작성 함수
+        document.getElementById("submitReview").addEventListener("click", async function() {
+            console.log("this is form check().");
+            let reviewForm = document.getElementById("writeReviewForm");
+
+            if (!(reviewFormValidation())) { // await를 사용하여 비동기 결과를 기다립니다.
+                console.log("formCheck is not true.");
+                return;
+            }
+
+            let reviewData = {
+                pno: reviewForm.querySelector("#productNo").value,
+                rating: reviewForm.querySelector("#reviewRating").value,
+                title: reviewForm.querySelector("#reviewTitle").value,
+                comment: reviewForm.querySelector("#reviewComment").value
+            };
+            console.log("reviewData:", reviewData);
+
+            fetch('<c:url value='/reviews'/>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reviewData)
+            })
+                .then(response => {
+                    // 응답이 성공적으로 받아졌을 때의 처리
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    console.log(response);
+
+                    window.location.reload()
+
+                    console.log("after reload() executed.");
+                    getToggle('customer');
+
+                    return response;
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                    return false;
+                });
+            return true;
+        })
+
+        // 리뷰의 up 또는 down 버튼 클릭 시 실행
+        document.getElementById("customerToggled").addEventListener("click", function(event) {
+            // 클릭된 버튼의 rno 가져오기
+            let rno = event.target.parentNode.parentNode.dataset.rno;
+
+            // 클릭된 요소 id가 upBtn일 때
+            if (event.target.id === "upBtn") {
+                console.log(`upCalcBtn clicked`);
+
+                // 부모 요소에서 upValueElement 클래스 찾기
+                let upValueElement = event.target.parentElement.querySelector(".up");
+
+                // /reviews/up/{rno} patch method
+                fetch(`/jland/reviews/up/`+rno, {
+                    method: 'PATCH',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        let up_cnt = data.up_cnt;
+
+                        upValueElement.innerHTML = up_cnt;
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    });
+            }
+
+            // 클릭된 요소 id가 downBtn일 때
+            if (event.target.id === "downBtn") {
+                console.log(`downBtn clicked`);
+
+                // 부모 요소에서 downValueElement 클래스 찾기
+                let downValueElement = event.target.parentElement.querySelector(".down");
+
+                // /reviews/down/{rno} patch method
+                fetch(`/jland/reviews/down/`+rno, {
+                    method: 'PATCH',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        let down_cnt = data.down_cnt;
+
+                        downValueElement.innerHTML = down_cnt;
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    });
+            }
+
+
+        });
+    });
 
     // For Quantity change
     const qty = document.getElementById('qty');
@@ -396,7 +486,6 @@
         qty.value = qtyValue;
     });
 
-    // For Overall Rating
     let avgRating = ${empty avgRating ? 0.0 : avgRating};
     drawStars(avgRating);
 
@@ -409,32 +498,60 @@
             star.innerHTML = '&#9733;'; // Unicode for a star symbol
             starContainer.appendChild(star);
         }
+
+        return starContainer;
     }
 
+    // fetch 시 받아온 json 값을 html 형식으로 변환
     let toHTML = function (reviews) {
         let tmp = "<ul>";
-        reviews.forEach(function(review) {
+        let pno;
+        reviews.itemsList.forEach(function(review) {
+            pno = review.pno
             tmp += "<li data-rno=" + review.rno
             tmp += " data-pno=" + review.pno
             tmp += " data-uno=" + review.uno + ">"
-            tmp += " rating=<span class='rating'>" + review.rating + "</span>"
-            tmp += " created=<span class='created'>" + review.created +"</span>"
-            tmp += " updated=<span class='updated'>" + review.updated +"</span>"
-            tmp += " title=<span class='title'>" + review.title + "</span>"
-            tmp += " givenName=<span class='givenName'>" + review.givenName + "</span>"
-            tmp += " familyName=<span class='familName'>" + review.familyName + "</span>"
-            tmp += " comment=<span class='comment'>" + review.comment + "</span>"
-            tmp += "<button id='upBtn'>up</button"
-            tmp += " up=<span class='up'>" + review.up + "</span>"
-            tmp += "<button id='downBtn'>down</button"
-            tmp += " down=<span class='down'>" + review.down + "</span>"
+            tmp += "<span class='created'>" + review.created +"</span>"
+            tmp += "<br>"
+            tmp += "<span class='starContainer'>"
+            tmp += drawStars(review.rating).innerHTML
+            tmp += "</span>"
+            tmp += "<br>"
+            tmp += "<span class='title'>" + review.title + "</span>"
+            tmp += "<br>"
+            tmp += "<span class='givenName'>" + review.givenName + "</span>"
+            tmp += " <span class='familyName'>" + review.familyName + "</span>"
+            tmp += "<br>"
+            tmp += "<span class='comment'>" + review.comment + "</span>"
+            tmp += "<br>"
+            tmp += "<div style='display: flex;'>"
+            tmp += "<img src='<c:url value="/resources/img/thumb-up.png"/>' id='upBtn' class='updown' style='width: 20px; height: 20px; alt='thumb-up'>"
+            tmp += "<span class='up'>" + review.up + "</span>"
+            tmp += "<img src='<c:url value="/resources/img/thumb-down.png"/>' id='downBtn' class='updown' style='width: 20px; height: 20px; alt='thumb-down'>"
+            tmp += "<span class='down'>" + review.down + "</span>"
+            tmp += "<div><a href='#none' class='modfyBtn'>수정</a>"
+            tmp += "<a href='#none' class='deleteBtn'>삭제</a></div>"
+            tmp += "</div>"
             tmp += "</li>"
+            tmp += "<hr>"
         })
+
+        tmp += "<div id='reviewNav'>"
+        for(let i = reviews.beginPage; i <= reviews.endPage; i++) {
+            tmp += "<a href='#none' data-pno=" + pno
+            tmp += " data-current-page="+i+" class='current-page' onclick='showPageReviewList(this)'>"+i+"</a>"+" "
+        }
+        tmp += "</div>"
+        tmp += "<br>"
         return tmp + "</ul>";
     }
 
-    let showReviewList = function(pno) {
-        fetch(`/jland/reviews?pno=${pno}`, {
+    let showPageReviewList = function(info) {
+
+        let pno = info.dataset.pno;
+        let currentPage = info.dataset.currentPage; // 수정된 부분
+
+        fetch("/jland/reviews/page?pno="+pno+"&currentPage="+currentPage, {
             method: 'GET'
         })
             .then(response => {
@@ -450,11 +567,37 @@
                 console.log("success-data: ", data);
 
                 document.getElementById("reviewArea").innerHTML = toHTML(data);
+                drawStars(avgRating);
             })
             .catch(error => {
                 console.error('There has been a problem with your fetch operation:', error);
             });
     }
+
+    let showReviewList = function(pno) {
+        fetch(`/jland/reviews/page?pno=${pno}`, {
+            method: 'GET'
+        })
+            .then(response => {
+                console.log("response: ", response);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                console.log("success-data: ", data);
+
+                document.getElementById("reviewArea").innerHTML = toHTML(data);
+                drawStars(avgRating);
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }
+
 
     // For Toggle
     let getToggle = function (status, event) {
@@ -470,11 +613,6 @@
 
         if (elementToggled.style.display === "none" || elementToggled.style.display === "") {
             toggleIcon.innerHTML = "&minus;";
-
-            // 여기서 customerToggleIcon에 대한 처리를 추가
-            const customerToggleIcon = document.getElementById("customerToggleIcon");
-            customerToggleIcon.innerHTML = "Loading..."; // 혹은 로딩 스피너 등을 표시할 수 있음
-
             showToggleContent(elementToggled);
         } else {
             toggleIcon.innerHTML = "&plus;";
@@ -490,9 +628,6 @@
         toggleElement.style.display = "none";
     }
 
-    document.getElementById("customerInfo").addEventListener("click", function(event) {
-        getToggle("test", event);
-    });
 
     // For Modal
     let modal;
@@ -596,120 +731,6 @@
         });
         return true;
     }
-
-    // For Review
-    let submitReview = document.getElementById("submitReview");
-    let reviewForm = document.getElementById("writeReviewForm");
-    submitReview.addEventListener("click", async function formCheck() {
-        console.log("this is form check().");
-        if (!(reviewFormValidation())) { // await를 사용하여 비동기 결과를 기다립니다.
-            console.log("formCheck is not true.");
-            return;
-        }
-
-        let reviewData = {
-            pno: reviewForm.querySelector("#productNo").value,
-            rating: reviewForm.querySelector("#reviewRating").value,
-            title: reviewForm.querySelector("#reviewTitle").value,
-            comment: reviewForm.querySelector("#reviewComment").value
-        };
-        console.log("reviewData:", reviewData);
-
-        fetch('<c:url value='/reviews'/>', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(reviewData)
-        })
-            .then(response => {
-                // 응답이 성공적으로 받아졌을 때의 처리
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                console.log(response);
-
-                window.location.reload()
-
-                console.log("after reload() executed.");
-                getToggle('customer');
-
-                return response;
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-                return false;
-            });
-        return true;
-    })
-
-    document.getElementById('customerToggled').addEventListener("click", function(event) {
-        console.log("event:", event);
-
-        // 클릭된 버튼 부모의 요소 찾기
-        let parentNode = event.target.parentNode;
-        let getRno = parentNode.dataset.pno;
-        console.log("getRno :", getRno);
-
-        let eventId = event.target.id;
-        console.log("eventId: ", eventId)
-
-        // 클릭된 요소가 upCalcBtn 클래스를 가지고 있는지 확인
-        if (event.target.classList.contains("upCalcBtn")) {
-            console.log(`upCalcBtn clicked`);
-
-            // 부모 요소에서 upCalcValue 클래스를 갖는 요소 찾기
-            let upCalcValue = parentEle.querySelector('.upCalcValue');
-
-            // /reviews/up/{rno} patch method
-            fetch(`/jland/reviews/up/`+rno, {
-                method: 'PATCH',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    let up_cnt = data.up_cnt;
-                    upCalcValue.innerText = up_cnt;
-
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
-        }
-
-        // 클릭된 요소가 downCalcBtn 클래스를 가지고 있는지 확인
-        if (event.target.classList.contains("downCalcBtn")) {
-            console.log(`downCalcBtn clicked`);
-
-            let downCalcValue = parentEle.querySelector('.downCalcValue');
-
-            // /reviews/up/{rno} patch method
-            fetch(`/jland/reviews/down/`+rno, {
-                method: 'PATCH',
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    let down_cnt = data.down_cnt;
-                    downCalcValue.innerText = down_cnt;
-
-                })
-                .catch(error => {
-                    console.error('There has been a problem with your fetch operation:', error);
-                });
-        }
-    });
 </script>
 </body>
 </html>

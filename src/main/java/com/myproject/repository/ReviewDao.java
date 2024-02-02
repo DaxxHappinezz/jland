@@ -24,6 +24,9 @@ public class ReviewDao {
     public List<Review> selectAll (Integer pno) throws Exception {
         return session.selectList(namespace + "selectAll", pno);
     }
+    public List<Review> selectPage (Map<String, Object> map) throws Exception {
+        return session.selectList(namespace + "selectPage", map);
+    }
     public Review select(Map map) throws Exception {
         return session.selectOne(namespace + "select", map);
     }

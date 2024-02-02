@@ -36,8 +36,16 @@ public class ReviewService {
     public List<Review> getReviewList(Integer pno) throws Exception {
         return this.reviewDao.selectAll(pno);
     }
+    public List<Review> getPageReviewList(Integer pno, Integer offset, Integer pageSize) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put("pno", pno);
+        map.put("offset", offset);
+        map.put("pageSize", pageSize);
+        System.out.println("map = " + map);
+        return this.reviewDao.selectPage(map);
+    }
     public Review getReview(Integer pno, Integer uno) throws Exception {
-        Map map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("pno", pno);
         map.put("uno", uno);
         return this.reviewDao.select(map);
