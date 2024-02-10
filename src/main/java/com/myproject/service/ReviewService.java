@@ -26,7 +26,6 @@ public class ReviewService {
     }
     public double getAvgRating(Integer pno) throws Exception {
         Double avgRating = this.reviewDao.avg_rating(pno);
-        System.out.println("avgRating = " + avgRating);
         if (avgRating == null) {
             System.out.println("service if() executed.");
             avgRating = 0.0;

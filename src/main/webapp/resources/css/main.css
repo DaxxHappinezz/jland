@@ -54,6 +54,26 @@ body {
     clear: both;
 }
 
+.content {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Arrow*/
+.arrow-up {
+    color: black;
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    font-size: 3rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 100%;
+    text-align: center;
+    box-shadow: 5px 5px 0px 0px rgb(143, 72, 243);
+}
+
 /* Footer */
 .footer {
     padding: 20px;

@@ -6,189 +6,10 @@
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
 <!DOCTYPE html>
 <html>
-<style>
-    .content {
-        background-color: white;
-        margin-top: 20px;
-    }
-    .imgArea {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 66.66%;
-        height: 25rem;
-        float: left;
-        padding: 15px;
-        border-right: 1px solid #dddddd;
-    }
-
-    .detailArea {
-        width: 33.33%;
-        float: left;
-        padding: 15px;
-    }
-
-    .content-a::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-
-    .content-a {
-        border-top: 1px solid #dddddd;
-    }
-
-    .productInfoArea {
-        display: flex;
-        background-color: #f2f2f2;
-        width: 100%;
-        padding: 15px;
-        border: 1px solid #dddddd;
-        justify-content: space-between; /* 내부 요소들을 좌우로 정렬합니다. */
-        align-items: center;
-    }
-
-    /* Modal */
-    /* 모달 스타일 */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    /* 모달 내용 스타일 */
-    .modal-content {
-        background-color: #fefefe;
-        margin: 20px auto;
-        border: 1px solid #888;
-        width: 80%;
-        max-width: 600px; /* 최대 가로 크기 설정 */
-        max-height: 95%; /* 최대 세로 크기 설정 */
-        overflow: auto; /* 내용이 넘칠 경우 스크롤 표시 */
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    /* 닫기 버튼 스타일 */
-    .modalClose {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        margin: 15px 15px 0 0;
-    }
-
-    .modalClose:hover,
-    .modalClose:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    .modal-header,
-    .modal-body,
-    .modal-footer,
-    .modal-body-row {
-        padding: 15px;
-    }
-
-    .modal-body {
-        height: 230px;
-        width: 100%;
-        justify-content: space-between;
-        display: flex;
-        align-items: center; /* 수직 중앙 정렬 */
-    }
-
-    .modal-footer {
-        height: 100px;
-        display: flex;
-        justify-content: center; /* 수평 가운데 정렬 */
-        align-items: center; /* 수직 가운데 정렬 */
-    }
-    .modal-footer > #submitReview {
-        align-items: center; /* 수직 중앙 정렬 */
-    }
-
-    .modal-body-row,
-    .modalContentInfo {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .modal-body-row,
-    .modalContentInfoDetail {
-        margin: auto 0;
-    }
-
-    .modalContentImage,
-    .modalContentInfo {
-        height: 100%; /* 부모인 .modal-body에 맞추기 위해 높이 100%로 설정 */
-        flex: 1; /* 남은 공간을 모두 차지하도록 설정 */
-    }
-
-    .modalContentImage {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .modalContentInfo {
-        padding-left: 20px;
-    }
-
-    .modalContentImage img {
-        height: 100%;
-        width: auto;
-        display: block;
-        margin: auto; /* 이미지를 컨테이너 내에서 수평으로 가운데에 위치시킴 */
-    }
-
-    .toggled {
-        display: none; /* 초기에 숨김 상태 */
-        padding: 0 15px;
-    }
-
-    .row {
-        position: relative; /* 이미지 크기 조절을 위한 상대 위치 설정 */
-    }
-
-    .row img {
-        height: 100%; /* 이미지를 부모 요소의 너비에 맞게 조절 */
-        width: auto; /* 가로 비율을 유지한 채 세로 비율 자동 조정 */
-        display: block; /* 이미지 간격 등을 위해 블록 레벨 요소로 설정 */
-    }
-
-    .calculation {
-        float: left;
-    }
-    .updown {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* Arrow*/
-    .arrow-up {
-        color: black;
-        position: fixed;
-        bottom: 3rem;
-        right: 3rem;
-        font-size: 3rem;
-        width: 3.5rem;
-        height: 3.5rem;
-        border-radius: 100%;
-        text-align: center;
-        box-shadow: 5px 5px 0px 0px rgb(143, 72, 243);
-    }
-</style>
 <head>
     <title>J Land</title>
     <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/information.css"/> "/>
     <script src="https://kit.fontawesome.com/3303015ad2.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -200,7 +21,7 @@
 
 <div class="topnav">
     <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/products'/>">SHOP</a>
+    <a href="<c:url value='/shop'/>">SHOP</a>
     <a href="<c:url value='/service'/>">HELP</a>
     <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
     <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -224,7 +45,7 @@
                     <button type="button" name="increaseQtyBtn"  id="increaseQtyBtn">&plus;</button>
                     <small>Limit 5</small>
                 </div>
-                <button type="button" id="submitBtn">Add to Bag</button>
+                <button type="button" id="submitBtn" data-pno="${product.pno}">Add to Bag</button>
             </div>
         </div>
 
@@ -308,57 +129,57 @@
                 <button type="button" id="myBagBtn" onclick="moveToCart()">View My Bag</button>
             </div>
         </div>
+    </div>
 
-        <%-- write a review --%>
-        <div id="writeReviewModal" class="modal">
-            <div class="modal-content">
-                <span id="writeModalCloseBtn" class="modalClose">&times;</span>
-                <div class="modal-header">
-                    <h2>Write a Review</h2>
+    <%-- write a review --%>
+    <div id="writeReviewModal" class="modal">
+        <div class="modal-content">
+            <span id="writeModalCloseBtn" class="modalClose">&times;</span>
+            <div class="modal-header">
+                <h2>Write a Review</h2>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <div class="modalContentImage">
+                    <img src="<c:url value='/resources/img/test.png'/>" alt="testimage"/>
                 </div>
-                <hr>
-                <div class="modal-body">
-                    <div class="modalContentImage">
-                        <img src="<c:url value='/resources/img/test.png'/>" alt="testimage"/>
+                <div class="modalContentInfo">
+                    <div class="modalContentInfoDetail">
+                        <h4>${product.pname}</h4>
                     </div>
-                    <div class="modalContentInfo">
-                        <div class="modalContentInfoDetail">
-                            <h4>${product.pname}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-body-row">
-                    <form id="writeReviewForm">
-                        <label for="productNo"></label>
-                        <input type="hidden" id="productNo" value="${product.pno}">
-                        <label for="reviewRating">Overall rating<span>*</span></label>
-                        <br>
-                        <input type="text" name="rating" id="reviewRating" placeholder="1 ~ 5 Point">
-                        <br>
-                        <div id="ratingMsg" class="msg"></div>
-                        <br>
-                        <label for="reviewTitle">Review Title<span>*</span></label>
-                        <br>
-                        <input type="text" name="title" id="reviewTitle" placeholder="Review Title">
-                        <br>
-                        <div id="titleMsg" class="msg"></div>
-                        <br>
-                        <label for="reviewComment">Write your review<span>*</span></label>
-                        <br>
-                        <textarea name="comment" id="reviewComment" placeholder="Review Content"></textarea>
-                        <br>
-                        <div id="commentMsg" class="msg"></div>
-                    </form>
-                </div>
-                <hr>
-                <div class="modal-footer">
-                    <button type="button" id="submitReview">Submit review</button>
                 </div>
             </div>
+            <div class="modal-body-row">
+                <form id="writeReviewForm">
+                    <label for="productNo"></label>
+                    <input type="hidden" id="productNo" value="${product.pno}">
+                    <label for="reviewRating">Overall rating<span>*</span></label>
+                    <br>
+                    <input type="text" name="rating" id="reviewRating" placeholder="1 ~ 5 Point">
+                    <br>
+                    <div id="ratingMsg" class="msg"></div>
+                    <br>
+                    <label for="reviewTitle">Review Title<span>*</span></label>
+                    <br>
+                    <input type="text" name="title" id="reviewTitle" placeholder="Review Title">
+                    <br>
+                    <div id="titleMsg" class="msg"></div>
+                    <br>
+                    <label for="reviewComment">Write your review<span>*</span></label>
+                    <br>
+                    <textarea name="comment" id="reviewComment" placeholder="Review Content"></textarea>
+                    <br>
+                    <div id="commentMsg" class="msg"></div>
+                </form>
+            </div>
+            <hr>
+            <div class="modal-footer">
+                <button type="button" id="submitReview">Submit review</button>
+            </div>
         </div>
-        <div class="footer">
-            <h2>Footer</h2>
-        </div>
+    </div>
+    <div class="footer">
+        <h2>Footer</h2>
     </div>
 </div>
 <script>
@@ -397,11 +218,8 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-
-                    // 성공 시 리뷰 목록 갱신
                     showPageReviewList(this);
 
-                    // 작성 중인 리뷰 모달 종료
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                 })
@@ -412,16 +230,12 @@
 
         // 리뷰의 up 또는 down 버튼 클릭 시 실행
         document.getElementById("customerToggled").addEventListener("click", function(event) {
-            // 클릭된 버튼의 rno 가져오기
             let rno = event.target.parentNode.parentNode.dataset.rno;
 
-            // 클릭된 요소 id가 upBtn일 때
             if (event.target.id === "upBtn") {
 
-                // 부모 요소에서 upValueElement 클래스 찾기
                 let upValueElement = event.target.parentElement.querySelector(".up");
 
-                // /reviews/up/{rno} patch method
                 fetch(`/jland/reviews/up/`+rno, {
                     method: 'PATCH',
                 })
@@ -444,10 +258,8 @@
             // 클릭된 요소 id가 downBtn일 때
             if (event.target.id === "downBtn") {
 
-                // 부모 요소에서 downValueElement 클래스 찾기
                 let downValueElement = event.target.parentElement.querySelector(".down");
 
-                // /reviews/down/{rno} patch method
                 fetch(`/jland/reviews/down/`+rno, {
                     method: 'PATCH',
                 })
@@ -531,7 +343,13 @@
         const body = document.body;
 
         // View to myBag Modal
-        document.getElementById('submitBtn').addEventListener('click', function() {
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            console.log("AddToBag Btn clicked.");
+
+            let pno = event.target.dataset.pno;
+            console.log("pno: ", pno);
+            console.log("qtyValue: ", qtyValue);
+            addToBag(pno, qtyValue);
             modal = document.getElementById('myBagModal')
             modal.style.display = 'block';
 
@@ -578,6 +396,23 @@
     });
 
 
+    let addToBag = function(pno, quantity) {
+        fetch("/jland/cart?pno="+pno+"&quantity="+quantity, {
+            method: 'POST'
+        })
+            .then(response => {
+                console.log("response: ", response);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response;
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    }
 
     let avgRating = ${empty avgRating ? 0.0 : avgRating};
     drawStars(avgRating);
@@ -728,7 +563,6 @@
     function setMessage(msg, element) {
         document.getElementById(element).innerHTML = msg;
     }
-
 </script>
 </body>
 </html>

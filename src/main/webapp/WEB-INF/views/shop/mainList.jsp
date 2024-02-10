@@ -91,7 +91,7 @@
 
 <div class="topnav">
   <a href="<c:url value='/'/>">JLand</a>
-  <a href="<c:url value='/products'/>">SHOP</a>
+  <a href="<c:url value='/shop'/>">SHOP</a>
   <a href="<c:url value='/service'/>">HELP</a>
   <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
   <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -126,11 +126,11 @@
       <div class="grid-container">
         <c:forEach var="product" items="${productList}">
           <div class="grid-item" data-category="${product.category}">
-            <a href="<c:url value='/products/${product.pno}'/>">
+            <a href="<c:url value='/shop/${product.pno}'/>">
               <img src="<c:url value='/resources/img/test.png'/>" alt="product_image">
             </a>
             <p>${product.pno}</p>
-            <a href="<c:url value='/products/${product.pno}'/>">
+            <a href="<c:url value='/shop/${product.pno}'/>">
               <p>${product.pname}</p>
             </a>
             <p>${product.price}</p>
@@ -139,13 +139,6 @@
           </div>
         </c:forEach>
       </div>
-    </div>
-    <div class="card">
-      <h2>TITLE HEADING</h2>
-      <h5>Title description, Sep 2, 2017</h5>
-      <div class="fakeimg" style="height:200px;">Image</div>
-      <p>Some text..</p>
-      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ package com.myproject.controller;
 import com.myproject.domain.User;
 import com.myproject.repository.UserDao;
 import com.myproject.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,14 +18,10 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/account")
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
     private final UserService userService;
-
-    public LoginController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/login")
     public String login() {
@@ -52,13 +49,13 @@ public class LoginController {
             }
             HttpSession session = request.getSession();
             session.setAttribute("id", id);
+
+            return "redirect:/";
         } catch (Exception e) {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "LOG_ERR");
             return "redirect:/account/login";
         }
-
-        return "redirect:/";
     }
 
     @GetMapping("/logout")

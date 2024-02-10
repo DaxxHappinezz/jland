@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
 </head>
 <body>
 
@@ -18,7 +18,7 @@
 
 <div class="topnav">
     <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/products'/>">SHOP</a>
+    <a href="<c:url value='/shop'/>">SHOP</a>
     <a href="<c:url value='/service'/>">HELP</a>
     <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
     <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -26,8 +26,10 @@
     <a href="<c:url value='/cart'/>" class="topnav-right">search</a>
 </div>
 
-<div>
-    <h1>${myCart == null ? '위시리스트가 비어있습니다' : ''}</h1>
+<div class="main">
+    <div class="content">
+        <h2>${myCart == null ? '위시리스트가 비어있습니다' : ''}</h2>
+    </div>
 </div>
 
 <div class="footer">

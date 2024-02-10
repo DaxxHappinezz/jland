@@ -7,13 +7,8 @@
 <!DOCTYPE html>
 <head>
   <title>J Land</title>
-  <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>"/>
+  <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
   <style>
-    .content {
-      background-color: white;
-      padding: 20px;
-      margin-top: 20px;
-    }
   </style>
 </head>
 <body>
@@ -25,7 +20,7 @@
 
 <div class="topnav">
   <a href="<c:url value='/'/>">JLand</a>
-  <a href="<c:url value='/products'/>">SHOP</a>
+  <a href="<c:url value='/shop'/>">SHOP</a>
   <a href="<c:url value='/service'/>">HELP</a>
   <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
   <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -34,13 +29,8 @@
 </div>
 
 <div class="main">
-  <h2>Hey! How can we help you?</h2>
   <div class="content">
-    <h2>TITLE HEADING</h2>
-    <h5>Title description, Dec 7, 2017</h5>
-    <div class="fakeimg" style="height:200px;">Image</div>
-    <p>Some text..</p>
-    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+    <h2>Hey! How can we help you?</h2>
   </div>
 </div>
 

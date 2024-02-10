@@ -11,18 +11,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/shop")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
 
-    @GetMapping("/products")
-    public String main(Model m) {
+    @GetMapping
+    public String mainList(Model m) {
         List<Product> productList = null;
         try {
             productList = this.productService.findAll();
@@ -30,10 +32,10 @@ public class ProductController {
             e.printStackTrace();
         }
         m.addAttribute("productList", productList);
-        return "product/mainList";
+        return "shop/mainList";
     }
 
-    @GetMapping("/products/{pno}")
+    @GetMapping("/{pno}")
     public String product(@PathVariable Integer pno, Model m) {
         Product product = null;
         try {
@@ -51,6 +53,6 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "product/information";
+        return "shop/information";
     }
 }

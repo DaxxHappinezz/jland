@@ -8,21 +8,8 @@
 <html>
 <head>
     <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
     <style>
-        .content {
-            background-color: white;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .imgArea {
-            position: relative;
-        }
-        .imgArea img {
-            width: 100%; /* 이미지를 부모 요소의 너비에 맞게 조절 */
-            height: auto; /* 가로 비율을 유지한 채 세로 비율 자동 조정 */
-            display: block; /* 이미지 간격 등을 위해 블록 레벨 요소로 설정 */
-        }
 
         img {
             vertical-align: middle;
@@ -36,11 +23,6 @@
         /* Hide the images by default */
         .mySlides {
             display: none;
-        }
-
-        /* Add a pointer when hovering over the thumbnail images */
-        .cursor {
-            cursor: pointer;
         }
 
         /* Next & previous buttons */
@@ -81,36 +63,6 @@
             top: 0;
         }
 
-        /* Container for image text */
-        .caption-container {
-            text-align: center;
-            background-color: #222;
-            padding: 2px 16px;
-            color: white;
-        }
-
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* Six columns side by side */
-        .column {
-            float: left;
-            width: 16.66%;
-        }
-
-        /* Add a transparency effect for thumnbail images */
-        .demo {
-            opacity: 0.6;
-        }
-
-        .active,
-        .demo:hover {
-            opacity: 1;
-        }
-
     </style>
 </head>
 <body>
@@ -122,7 +74,7 @@
 
 <div class="topnav">
     <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/products'/>">SHOP</a>
+    <a href="<c:url value='/shop'/>">SHOP</a>
     <a href="<c:url value='/service'/>">HELP</a>
     <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
     <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -190,19 +142,12 @@
     function showSlides(n) {
         let i;
         let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("demo");
-        let captionText = document.getElementById("caption");
         if (n > slides.length) {slideIndex = 1}
         if (n < 1) {slideIndex = slides.length}
         for (i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
         slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-        captionText.innerHTML = dots[slideIndex-1].alt;
     }
 </script>
 </body>

@@ -38,8 +38,6 @@ public class ReviewController {
     @GetMapping("/page") // /reviews/page?pno=222
     @ResponseBody
     public ResponseEntity<Object> getPageReviewList(Integer pno, Integer currentPage, Integer pageSize) {
-        System.out.println("currentPage = " + currentPage);
-        System.out.println("pno = " + pno);
         if (currentPage == null) currentPage = 1;
         if (pageSize == null) pageSize = 5;
         List<Review> pageReviewList = null;

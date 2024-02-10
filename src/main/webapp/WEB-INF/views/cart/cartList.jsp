@@ -7,14 +7,7 @@
 <html>
 <head>
     <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>"/>
-    <style>
-        .content {
-            background-color: white;
-            padding: 20px;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
 </head>
 <body>
 
@@ -26,7 +19,7 @@
 
 <div class="topnav">
     <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/products'/>">SHOP</a>
+    <a href="<c:url value='/shop'/>">SHOP</a>
     <a href="<c:url value='/service'/>">HELP</a>
     <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
     <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
@@ -59,39 +52,42 @@
             method: 'GET',
         })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                if (response.status === 203) {
+                    return response;
                 }
+
+                if (!response.ok) {
+                    throw new Error('Server response was not ok');
+                }
+
                 return response.json();
             })
             .then(data => {
-                console.log("data: ", data);
                 myCart.innerHTML = toHtml(data);
             })
             .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+                console.error('error: ', error);
             });
     };
 
     let toHtml = function(list) {
+        console.log("list: ", list);
         let result = '<ul>';
 
-        if (list.length === 0) {
-            result += "<li><p>장바구니가 비었습니다.</p></li>"
-            result += "<button><a href='<c:url value="/products"/>'>Go to SHOP</a></button>"
+        if (list.length > 0) {
+            list.forEach(function(item) {
+                result += '<li data-cno=' + item.cno
+                result += ' data-pno=' + item.pno + '>'
+                result += '<span class="product-name">' + item.pname + '</span>'
+                result += '<span class="quantity">' + item.quantity + '</span>'
+                result += '<span class="price">' + item.price + '</span></li>'
+            });
             return result += '</ul>';
         }
 
-        list.forEach(function(item) {
-            result += '<li data-cno=' + item.cno
-            result += ' data-pno=' + item.pno + '>'
-            result += '<span class="product-name">' + item.pname + '</span>'
-            result += '<span class="quantity">' + item.quantity + '</span>'
-            result += '<span class="price">' + item.price + '</span></li>'
-        });
-        result += '</ul>';
-        console.log("item result: ", result);
-        return result;
+        result += "<li><p>장바구니가 비었습니다.</p></li>"
+        result += "<button><a href='/jland/shop'>Go to SHOP</a></button>"
+        return result += '</ul>';
     };
 </script>
 </body>

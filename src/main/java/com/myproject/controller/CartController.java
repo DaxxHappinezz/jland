@@ -4,6 +4,7 @@ import com.myproject.domain.Cart;
 import com.myproject.domain.User;
 import com.myproject.service.CartService;
 import com.myproject.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/cart")
+@RequiredArgsConstructor
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private UserService userService;
+    private final CartService cartService;
+    private final UserService userService;
 
     @GetMapping
     public String moveToCart() {
@@ -33,17 +33,18 @@ public class CartController {
     public ResponseEntity<Object> getMyCart(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String user_id = (String)session.getAttribute("id");
+        System.out.println("user_id = " + user_id);
 
         List<Cart> myCart = null;
         try {
             User user = userService.getUser(user_id);
-            user = new User();
-            user.setUno(10);
+            System.out.println("user = " + user);
+
             if (user == null) {
                 user = new User();
-                user.setUno(9999);
-                return ResponseEntity.status(HttpStatus.OK)
-                        .body("MOD_Guest");
+                user.setUno(1);
+                return ResponseEntity.status(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
+                        .body(myCart);
             }
             myCart = cartService.findAllByUser(user.getUno());
             System.out.println("myCart = " + myCart);
@@ -76,18 +77,15 @@ public class CartController {
     public ResponseEntity<String> saveCart(Integer pno, Integer quantity, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String user_id = (String) session.getAttribute("id");
+        System.out.println("user_id = " + user_id);
 
         User user = null;
         try {
             user = userService.getUser(user_id);
 
             if (user == null) {
-//                String msg = "Not in login status. Go back to Login.";
-//                throw new RuntimeException(msg);
-
-                // 테스트 용
-                user = new User();
-                user.setUno(1);
+                String msg = "Not in login status. Go back to Login.";
+                throw new RuntimeException(msg);
             }
 
             Cart cart = new Cart(pno, "", user.getUno(), quantity);
