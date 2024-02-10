@@ -7,5 +7,6 @@
         <typeAlias alias="User" type="com.myproject.domain.User"/>
         <typeAlias alias="Product" type="com.myproject.domain.Product"/>
         <typeAlias alias="Review" type="com.myproject.domain.Review"/>
+        <typeAlias alias="Cart" type="com.myproject.domain.Cart"/>
     </typeAliases>
 </configuration>

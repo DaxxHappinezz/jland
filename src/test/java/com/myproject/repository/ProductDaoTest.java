@@ -36,11 +36,11 @@ public class ProductDaoTest {
         rowCnt = this.productDao.insert(product);
         assertTrue(rowCnt == 1);
 
-        product = new Product("The Globe", 22999, 3);
+        product = new Product("The Globe", 22999, 3, "etc");
         rowCnt = this.productDao.insert(product);
         assertTrue(rowCnt == 1);
 
-        product = new Product("Disney Castle", 39999, 3);
+        product = new Product("Disney Castle", 39999, 3, "etc");
         rowCnt = this.productDao.insert(product);
         assertTrue(rowCnt == 1);
 

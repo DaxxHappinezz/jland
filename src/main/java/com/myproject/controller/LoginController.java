@@ -70,7 +70,7 @@ public class LoginController {
 
     private boolean loginCheck(String id, String pw) throws Exception {
         User user = this.userService.getUser(id);
-        System.out.println("user = " + user);
+        System.out.println("loginCheck() user = " + user);
         if (user == null) {
             return false;
         }

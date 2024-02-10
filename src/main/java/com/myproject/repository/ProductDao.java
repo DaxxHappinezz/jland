@@ -1,6 +1,7 @@
 package com.myproject.repository;
 
 import com.myproject.domain.Product;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class ProductDao {
 
-    @Autowired
-    SqlSession session;
-    private String namespace = "com.myproject.repository.ProductMapper.";
+    private final SqlSession session;
+    private final String namespace = "com.myproject.repository.ProductMapper.";
 
     public int count() throws Exception {
         return session.selectOne(namespace + "count");
@@ -35,8 +36,14 @@ public class ProductDao {
     public int update(Product product) throws Exception {
         return session.update(namespace + "update", product);
     }
-    public int changeReviewCount(Integer pno, int countValue) throws Exception {
-        Map<String, Integer> map = new HashMap<>();
+    public int changeReviewCount(Integer pno, Integer countValue) throws Exception {
+        Map<String,  Object> map = new HashMap<>();
+        map.put("pno", pno);
+        map.put("countValue", countValue);
+        return session.update(namespace + "changeReviewCount", map);
+    }
+    public int changeQuantity(Integer pno, Integer countValue) throws Exception {
+        Map<String,  Object> map = new HashMap<>();
         map.put("pno", pno);
         map.put("countValue", countValue);
         return session.update(namespace + "changeReviewCount", map);

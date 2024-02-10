@@ -15,8 +15,8 @@ public class ReviewDao {
     private SqlSession session;
     private String namespace = "com.myproject.repository.ReviewMapper.";
 
-    public int count() throws Exception {
-        return session.selectOne(namespace + "count");
+    public int count(Integer pno) throws Exception {
+        return session.selectOne(namespace + "count", pno);
     }
     public double avg_rating(Integer pno) throws Exception {
         return session.selectOne(namespace + "avg_rating", pno);

@@ -20,17 +20,17 @@ public class MyController {
     @GetMapping("/service")
     public void help() {}
 
-    @GetMapping("/cart")
-    public String myCart(Model m) {
-        List<Product> cartList = null;
-        try {
-            cartList = this.productDao.selectAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        m.addAttribute("cartList", cartList);
-        return "cart/cartList";
-    }
+//    @GetMapping("/cart")
+//    public String myCart(Model m) {
+//        List<Product> cartList = null;
+//        try {
+//            cartList = this.productDao.selectAll();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        m.addAttribute("cartList", cartList);
+//        return "cart/cartList";
+//    }
 
     @GetMapping("/wishlist")
     public String myWishlist() {

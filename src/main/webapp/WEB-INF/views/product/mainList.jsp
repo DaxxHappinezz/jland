@@ -9,12 +9,18 @@
   <title>J Land</title>
   <link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>"/>
   <style>
+    button {
+      background-color: #333;
+      color: #dddddd;
+      font-weight: bold;
+      width: 100%;
+    }
     /* Create two unequal columns that floats next to each other */
     /* Left column */
     .leftcolumn {
       float: left;
       width: 25%;
-      background-color: #f1f1f1;
+      background-color: white;
       padding-right: 20px;
     }
 
@@ -24,6 +30,7 @@
 
     /* Right column */
     .rightcolumn {
+      background-color: white;
       float: left;
       width: 75%;
     }
@@ -33,13 +40,6 @@
       background-color: #aaa;
       width: 100%;
       padding: 20px;
-    }
-
-    /* Add a card effect for articles */
-    .card {
-      background-color: white;
-      padding: 20px;
-      margin-top: 20px;
     }
 
     .grid-container {
@@ -102,28 +102,30 @@
 <div class="row">
   <div class="leftcolumn">
     <div class="card">
-      <h4>Product Type</h4>
-      <ul>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-      </ul>
-      <hr>
-      <h4>Price</h4>
-      <ul>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-        <li><input type="checkbox" name=""/>[type]</li>
-      </ul>
+      <div class="categories">
+        <h4>Product Type</h4>
+        <ul class="categories__product">
+          <li><button class="category" data-category="all">All</button></li>
+          <li><button class="category" data-category="nature">Nature</button></li>
+          <li><button class="category" data-category="city">City</button></li>
+          <li><button class="category" data-category="etc">ETC</button></li>
+        </ul>
+        <hr>
+        <h4>Price</h4>
+        <ul class="categories__price">
+          <li><button class="category" data-category="">All</button></li>
+          <li><button class="category" data-category="">Nature</button></li>
+          <li><button class="category" data-category="">City</button></li>
+          <li><button class="category" data-category="">ETC</button></li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="rightcolumn">
     <div class="card">
       <div class="grid-container">
         <c:forEach var="product" items="${productList}">
-          <div class="grid-item">
+          <div class="grid-item" data-category="${product.category}">
             <a href="<c:url value='/products/${product.pno}'/>">
               <img src="<c:url value='/resources/img/test.png'/>" alt="product_image">
             </a>
@@ -151,5 +153,26 @@
 <div class="footer">
   <h2>Footer</h2>
 </div>
+
+<script>
+  const categoriesProduct = document.querySelector('.categories__product');
+  const products = document.querySelectorAll('.grid-item');
+  categoriesProduct.addEventListener("click", (event) => {
+    let filter = event.target.dataset.category;
+    if (filter == null) {
+      return;
+    }
+    console.log("filter: ", filter);
+    products.forEach(product => {
+      console.log(product)
+      if (filter === 'all' || filter === product.dataset.category) {
+        product.style.display = 'block';
+      } else {
+        product.style.display = 'none';
+      }
+    });
+  });
+
+</script>
 </body>
 </html>

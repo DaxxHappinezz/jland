@@ -21,8 +21,8 @@ public class ReviewService {
         this.productDao = productDao;
     }
 
-    public int getCount() throws Exception {
-        return this.reviewDao.count();
+    public int getCount(Integer pno) throws Exception {
+        return this.reviewDao.count(pno);
     }
     public double getAvgRating(Integer pno) throws Exception {
         Double avgRating = this.reviewDao.avg_rating(pno);
