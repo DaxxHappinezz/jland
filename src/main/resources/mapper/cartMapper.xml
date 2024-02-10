@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myproject.repository.CartMapper">
+    <select id="count" resultType="int">
+        SELECT count(*) FROM cart
+    </select>
+
+    <select id="selectAll" resultType="Cart">
+        SELECT * FROM cart ORDER BY cno DESC
+    </select>
+
+    <select id="selectByCno" parameterType="int" resultType="Cart">
+        SELECT * FROM cart WHERE cno = #{cno}
+    </select>
+
+    <select id="selectByUser" parameterType="int" resultType="Cart">
+        SELECT c.cno, c.pno, p.pname as pname, p.price as price, c.uno, c.quantity FROM cart c
+        INNER JOIN products p on c.pno = p.pno
+        WHERE c.uno = #{uno};
+    </select>
+
+    <insert id="insert" parameterType="Cart">
+        INSERT INTO cart (pno, uno, quantity) VALUES (#{pno}, #{uno}, #{quantity});
+    </insert>
+
+    <update id="update" parameterType="Cart">
+        UPDATE cart SET quantity = #{quantity} WHERE cno = #{cno} AND uno = #{uno}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE FROM cart WHERE cno = #{cno} AND uno = #{uno}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM cart
+    </delete>
+</mapper>

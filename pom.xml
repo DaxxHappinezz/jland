@@ -15,6 +15,16 @@
   </properties>
 
   <dependencies>
+    <!-- Lombok -->
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-maven-plugin</artifactId>
+      <version>1.18.20.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
     <!-- Jackson -->
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>

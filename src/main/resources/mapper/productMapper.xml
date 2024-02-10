@@ -20,17 +20,21 @@
     </select>
 
     <insert id="insert" parameterType="Product">
-        INSERT INTO products (pname, price, size, quantity, color, review_cnt)
-        VALUES (#{pname}, #{price}, #{size}, #{quantity}, #{color}, 0)
+        INSERT INTO products (pname, price, size, quantity, color, review_cnt, category)
+        VALUES (#{pname}, #{price}, #{size}, #{quantity}, #{color}, 0, #{category})
     </insert>
 
     <update id="update" parameterType="Product">
-        UPDATE products SET pname = #{pname}, price = #{price}, size = #{size}, quantity = #{quantity}, color = #{color}, review_cnt = #{review_cnt}
+        UPDATE products SET pname = #{pname}, price = #{price}, size = #{size}, quantity = #{quantity}, color = #{color}, review_cnt = #{review_cnt}, category = #{category}
         WHERE pno = #{pno}
     </update>
 
     <update id="changeReviewCount" parameterType="map">
         UPDATE products SET review_cnt = review_cnt + #{countValue} WHERE pno = #{pno};
+    </update>
+
+    <update id="changeQuantity" parameterType="map">
+        UPDATE products SET quantity = #{quantity} + #{countValue} WHERE pno = #{pno};
     </update>
 
     <delete id="delete" parameterType="int">

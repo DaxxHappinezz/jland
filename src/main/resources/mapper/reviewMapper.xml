@@ -4,7 +4,7 @@
 
 <mapper namespace="com.myproject.repository.ReviewMapper">
     <select id="count" resultType="int">
-        SELECT count(*) FROM reviews
+        SELECT count(*) FROM reviews WHERE pno = #{pno}
     </select>
 
     <select id="avg_rating" parameterType="int" resultType="double">
@@ -38,7 +38,7 @@
     </insert>
 
     <update id="update" parameterType="Review">
-        UPDATE reviews SET comment = #{comment}, updated = current_timestamp
+        UPDATE reviews SET title = #{title}, comment = #{comment}, updated = current_timestamp
         WHERE uno = #{uno}
     </update>
 

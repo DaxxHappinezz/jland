@@ -38,12 +38,14 @@ public class ReviewController {
     @GetMapping("/page") // /reviews/page?pno=222
     @ResponseBody
     public ResponseEntity<Object> getPageReviewList(Integer pno, Integer currentPage, Integer pageSize) {
+        System.out.println("currentPage = " + currentPage);
+        System.out.println("pno = " + pno);
         if (currentPage == null) currentPage = 1;
         if (pageSize == null) pageSize = 5;
         List<Review> pageReviewList = null;
         try {
             pageReviewList = reviewService.getPageReviewList(pno, (currentPage -1) * 5, pageSize);
-            int reviewCnt = reviewService.getCount();
+            int reviewCnt = reviewService.getCount(pno);
             PageHandler ph = new PageHandler(reviewCnt, currentPage, pageSize, pageReviewList);
 
             return ResponseEntity.status(HttpStatus.OK)
@@ -61,6 +63,26 @@ public class ReviewController {
         review.setUno(1);
         try {
             int rowCnt = reviewService.writeReview(review);
+
+            if (rowCnt != 1) {
+                throw new RuntimeException("Requested insert review Failed.");
+            }
+
+            return ResponseEntity.ok()
+                    .body("REV_OK");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("REV_ERR");
+        }
+    }
+    @PutMapping("/{rno}")
+    public ResponseEntity<String> modify(@PathVariable("rno") Integer rno, @RequestBody Review review) {
+        System.out.println("rno = " + rno);
+        System.out.println("review = " + review);
+        review.setUno(1);
+        try {
+            int rowCnt = reviewService.modifyReview(review);
 
             if (rowCnt != 1) {
                 throw new RuntimeException("Requested insert review Failed.");
