@@ -18,22 +18,18 @@ public class MyController {
     ProductDao productDao;
 
     @GetMapping("/service")
-    public void help() {}
-
-//    @GetMapping("/cart")
-//    public String myCart(Model m) {
-//        List<Product> cartList = null;
-//        try {
-//            cartList = this.productDao.selectAll();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        m.addAttribute("cartList", cartList);
-//        return "cart/cartList";
-//    }
+    public String help() {
+        return "service.tiles";
+    }
 
     @GetMapping("/wishlist")
     public String myWishlist() {
-        return "cart/wishlist";
+        return "cart/wishlist.tiles";
+    }
+
+    // Tiles Test
+    @GetMapping("/test")
+    public String test() {
+        return "test.tiles";
     }
 }

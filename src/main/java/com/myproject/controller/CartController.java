@@ -25,7 +25,7 @@ public class CartController {
 
     @GetMapping
     public String moveToCart() {
-        return "cart/cartList";
+        return "cart/cartList.tiles";
     }
 
     @GetMapping("/get")

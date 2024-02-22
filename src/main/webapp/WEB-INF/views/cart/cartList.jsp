@@ -4,50 +4,22 @@
 <c:set var="loginId" value="${empty pageContext.request.session.getAttribute('id') ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginLink" value="${loginId == '' ? '/account/login' : '/account/logout'}"/>
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
-<html>
-<head>
-    <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
-</head>
-<body>
-
-<%-- Header --%>
-<div class="header">
-    <h1>J Land</h1>
-    <p>Resize the browser window to see the effect.</p>
-</div>
-
-<div class="topnav">
-    <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/shop'/>">SHOP</a>
-    <a href="<c:url value='/service'/>">HELP</a>
-    <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
-    <a href="<c:url value='/wishlist'/>" class="topnav-right">Wishlist</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">search</a>
-</div>
 
 <%-- Main --%>
-<div class="main">
-    <div class="content">
-        <section class="content__section">
-            <h2 class="section__title">장바구니</h2>
-            <div class=section__cart></div>
-        </section>
-    </div>
-</div>
+<main class="main">
+    <section id="cart" class="section">
+        <h2 class="cart__title">Cart</h2>
+        <div class=cart__description></div>
+    </section>
+</main>
 
-<%-- Footer --%>
-<div class="footer">
-    <h2>Footer</h2>
-</div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         getCartList();
     });
 
     let getCartList = function() {
-        let myCart = document.querySelector('.section__cart');
+        let myCart = document.querySelector('.cart__description');
         fetch(`/jland/cart/get`, {
             method: 'GET',
         })
@@ -72,7 +44,7 @@
 
     let toHtml = function(list) {
         console.log("list: ", list);
-        let result = '<ul>';
+        let result = '<ul class=cart__list>';
 
         if (list.length > 0) {
             list.forEach(function(item) {
@@ -86,9 +58,7 @@
         }
 
         result += "<li><p>장바구니가 비었습니다.</p></li>"
-        result += "<button><a href='/jland/shop'>Go to SHOP</a></button>"
+        result += "<a class='cart__shopBtn' href='/jland/shop'>Go to SHOP</a>"
         return result += '</ul>';
     };
 </script>
-</body>
-</html>

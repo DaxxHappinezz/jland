@@ -4,32 +4,11 @@
 <c:set var="loginId" value="${empty pageContext.request.session.getAttribute('id') ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginLink" value="${loginId == '' ? '/account/login' : '/account/logout'}"/>
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
-    <link rel="stylesheet" href="<c:url value="/resources/css/information.css"/> "/>
-    <script src="https://kit.fontawesome.com/3303015ad2.js" crossorigin="anonymous"></script>
-</head>
-<body>
 
-<div class="header">
-    <h1>J Land</h1>
-    <p>Resize the browser window to see the effect.</p>
-</div>
+<link rel="stylesheet" href="<c:url value="/resources/css/information.css"/> "/>
+<script src="https://kit.fontawesome.com/3303015ad2.js" crossorigin="anonymous"></script>
 
-<div class="topnav">
-    <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/shop'/>">SHOP</a>
-    <a href="<c:url value='/service'/>">HELP</a>
-    <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
-    <a href="<c:url value='/wishlist'/>" class="topnav-right">Wishlist</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">search</a>
-</div>
-
-<div class="row">
+<main class="row">
     <div class="content">
         <div class="content-a">
             <div class="imgArea">
@@ -178,10 +157,7 @@
             </div>
         </div>
     </div>
-    <div class="footer">
-        <h2>Footer</h2>
-    </div>
-</div>
+</main>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -564,5 +540,3 @@
         document.getElementById(element).innerHTML = msg;
     }
 </script>
-</body>
-</html>

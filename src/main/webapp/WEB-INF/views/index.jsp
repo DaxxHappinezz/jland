@@ -4,89 +4,72 @@
 <c:set var="loginId" value="${empty pageContext.request.session.getAttribute('id') ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginLink" value="${loginId == '' ? '/account/login' : '/account/logout'}"/>
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>J Land</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
-    <style>
 
-        img {
-            vertical-align: middle;
-        }
+<link rel="stylesheet" href="<c:url value="/resources/css/main.css"/>"/>
+<%--    Google Fonts--%>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/3303015ad2.js" crossorigin="anonymous"></script>
+<style>
 
-        /* Position the image container (needed to position the left and right arrows) */
-        .container {
-            position: relative;
-        }
+    img {
+        vertical-align: middle;
+    }
 
-        /* Hide the images by default */
-        .mySlides {
-            display: none;
-        }
+    /* Hide the images by default */
+    .mySlides {
+        display: none;
+    }
 
-        /* Next & previous buttons */
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 40%;
-            width: auto;
-            padding: 16px;
-            margin-top: -50px;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-            -webkit-user-select: none;
-        }
+    .home__container {
+        margin-top: 0.5rem;
+    }
 
-        /* Position the "next button" to the right */
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -50px;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        -webkit-user-select: none;
+    }
 
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+    /* Position the "next button" to the right */
+    .next {
+        right: 3rem;
+        border-radius: 3px 0 0 3px;
+    }
 
-        /* Number text (1/3 etc) */
-        .numbertext {
-            color: #f2f2f2;
-            font-size: 12px;
-            padding: 8px 12px;
-            position: absolute;
-            top: 0;
-        }
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
 
-    </style>
-</head>
-<body>
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        /*top: 0;*/
+    }
+</style>
 
-<div class="header">
-    <h1>J Land</h1>
-    <p>Resize the browser window to see the effect.</p>
-</div>
-
-<div class="topnav">
-    <a href="<c:url value='/'/>">JLand</a>
-    <a href="<c:url value='/shop'/>">SHOP</a>
-    <a href="<c:url value='/service'/>">HELP</a>
-    <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
-    <a href="<c:url value='/wishlist'/>" class="topnav-right">Wishlist</a>
-    <a href="<c:url value='/cart'/>" class="topnav-right">search</a>
-</div>
-
-<div class="main">
-    <div class="content">
-        <h2 style="text-align:center">Welcome to J Land</h2>
-
-        <div class="container">
+<main class="main">
+    <section id="home" class="section">
+        <h2 class="home__title">Welcome to J Land</h2>
+        <div class="home__container">
             <div class="mySlides">
                 <div class="numbertext">1 / 6</div>
                 <img src="<c:url value='/resources/img/img_woods_wide.jpg'/>" style="width:100%">
@@ -116,16 +99,11 @@
                 <div class="numbertext">6 / 6</div>
                 <img src="<c:url value='/resources/img/img_snow_wide.jpg'/>" style="width:100%">
             </div>
-
             <a class="prev" onclick="plusSlides(-1)">❮</a>
             <a class="next" onclick="plusSlides(1)">❯</a>
         </div>
-    </div>
-</div>
-
-<div class="footer">
-    <h2>Footer</h2>
-</div>
+    </section>
+</main>
 
 <script>
     let slideIndex = 1;

@@ -25,7 +25,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
-        return "account/loginForm";
+        return "account/loginForm.tiles";
     }
 
     @PostMapping("/login")

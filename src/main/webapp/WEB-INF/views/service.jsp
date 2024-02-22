@@ -4,7 +4,7 @@
 <c:set var="loginId" value="${empty pageContext.request.session.getAttribute('id') ? '' : pageContext.request.session.getAttribute('id')}"/>
 <c:set var="loginLink" value="${loginId == '' ? '/account/login' : '/account/logout'}"/>
 <c:set var="isLogin" value="${loginId == '' ? 'Sign in' : 'Sign out'}"/>
-<!DOCTYPE html>
+<html>
 <head>
   <title>J Land</title>
   <link rel="stylesheet" href="<c:url value="/resources/css/main.css?after"/>"/>
@@ -13,29 +13,13 @@
 </head>
 <body>
 
-<div class="header">
-  <h1>J Land</h1>
-  <p>Resize the browser window to see the effect.</p>
-</div>
-
-<div class="topnav">
-  <a href="<c:url value='/'/>">JLand</a>
-  <a href="<c:url value='/shop'/>">SHOP</a>
-  <a href="<c:url value='/service'/>">HELP</a>
-  <a href="<c:url value='${loginLink}'/>" class="topnav-right">${isLogin}</a>
-  <a href="<c:url value='/cart'/>" class="topnav-right">My Cart</a>
-  <a href="<c:url value='/wishlist'/>" class="topnav-right">Wishlist</a>
-  <a href="<c:url value='/cart'/>" class="topnav-right">search</a>
-</div>
-
-<div class="main">
-  <div class="content">
-    <h2>Hey! How can we help you?</h2>
-  </div>
-</div>
-
-<div class="footer">
-  <h2>Footer</h2>
-</div>
+<main>
+  <section id="service" class="section">
+    <h2 class="service__title">Help Service</h2>
+    <div class=service__description>
+      <h2>Hey! How can we help you?</h2>
+    </div>
+  </section>
+</main>
 </body>
 </html>

@@ -32,7 +32,7 @@ public class ProductController {
             e.printStackTrace();
         }
         m.addAttribute("productList", productList);
-        return "shop/mainList";
+        return "shop/productList.tiles";
     }
 
     @GetMapping("/{pno}")
@@ -53,6 +53,6 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "shop/information";
+        return "shop/information.tiles";
     }
 }
